@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import sendStudentQuery from "../../api/sendStudentQuery";
 import { GRADIENT_TEXT, PRIMARY_COLOR } from "../../constants/colors";
 import Loader from "../spinners/BeatLoader";
@@ -6,18 +6,27 @@ import PanelTemplate from "./PanelTemplate";
 import TextBox from "./TextBox";
 import io from "socket.io-client";
 
-export default function ChatPanel({ visible, user }) {
+export default function ChatPanel({ visible, user = "test" }) {
   //gay
   const [socketInstance, setSocketInstance] = useState("");
   const [buttonStatus, setButtonStatus] = useState(false);
-
-  const handleClick = () => {
-    if (buttonStatus === false) {
-      setButtonStatus(true);
-    } else {
-      setButtonStatus(false);
-    }
-  };
+  const [messageHistory, setMessageHistory] = useState([]);
+  const update = useCallback(
+    (data) => {
+      const sender = data.msg.substring(0, data.msg.indexOf(":"));
+      const message = data.msg.substring(data.msg.indexOf(":") + 1);
+      if (sender !== user)
+        setMessageHistory([
+          {
+            sender: sender,
+            message: message,
+          },
+          ...messageHistory,
+        ]);
+      console.log(data);
+    },
+    [messageHistory, user]
+  );
 
   useEffect(() => {
     // if (buttonStatus === true) {
@@ -32,68 +41,54 @@ export default function ChatPanel({ visible, user }) {
 
     socket.on("connect", (data) => {
       console.log(data);
-      socket.emit("joined", {});
+      socket.emit("joined", {
+        name: user,
+      });
     });
 
     setLoading(false);
+    socket.on("message", update);
+    // socket.on("text", update);
 
     socket.on("disconnect", (data) => {
       console.log(data);
     });
 
-    socket.on("message", (data) => {
-      const sender = data.msg.substring(0, data.msg.indexOf(":"));
-      const message = data.msg.substring(data.msg.indexOf(":") + 1);
-      if (sender !== user)
-        setMessageHistory([
-          {
-            sender: sender,
-            message: message,
-          },
-          ...messageHistory,
-        ]);
-      console.log(data);
-    });
+    // socket.on("message", update);
 
     return function cleanup() {
       socket.disconnect();
     };
     // }
-  }, []);
+  }, [update, user]);
   ///gay
-  const [messageHistory, setMessageHistory] = useState([]);
+
   const sampleMessage = {
     sender: "TA",
     message: "Test",
   };
   const [studentQuery, setStudentQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const enter = async () => {
+  const enter = useCallback(async () => {
     if (studentQuery === "") return;
     console.log("Submitssion");
-    messageHistory.unshift({
-      sender: "student",
-      message: studentQuery,
-    });
-    setMessageHistory(messageHistory);
+    setMessageHistory([
+      {
+        sender: "student",
+        message: studentQuery,
+      },
+      ...messageHistory,
+    ]);
     setLoading(true);
     setStudentQuery("");
-    if (socketInstance) socketInstance.emit("text", { msg: studentQuery });
+    if (socketInstance)
+      socketInstance.emit("text", { name: user, msg: studentQuery });
     // const data = await sendStudentQuery(studentQuery);
     setLoading(false);
-  };
-  useEffect(() => {
-    if (socketInstance)
-      socketInstance.on("text", (data) => {
-        setMessageHistory([
-          {
-            sender: data.data,
-            message: data.data,
-          },
-          ...messageHistory,
-        ]);
-      });
-  }, [socketInstance, messageHistory]);
+  }, [messageHistory, studentQuery, user, socketInstance]);
+  // useEffect(() => {
+  //   if (socketInstance)
+  // }, [socketInstance, update]);
   return (
     <PanelTemplate visible={visible}>
       <div className="relative h-full z-10">

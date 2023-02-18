@@ -46,10 +46,10 @@ def test():
 def join_classroom():
     pass
 
-@app.route("/chat")
-def chat():
-    name = session.get('name', '')
-    room = session.get('room', '')
+# @app.route("/chat", methods=["POST"])
+# def chat():
+#     session.set('name', )
+    
 
 @app.route("/generatePoll", methods=["GET", "POST"])
 def get_poll():
@@ -214,22 +214,23 @@ def get_summary():
 # Socket Stuff
 @socketio.on('joined', namespace='/chat')
 def joined(message):
-    room = session.get('room')
+    # room = session.get('room')
+    room = 1
     join_room(room)
-    emit('status', {'msg': session.get('name', 'test') + ' has entered the room.'}, room=room)
+    emit('status', {'msg': message['name'] + ' has entered the room.'}, room=room)
 
 
 @socketio.on('text', namespace='/chat')
 def text(message):
-    room = session.get('room')
-    emit('message', {'msg': session.get('name', 'test') + ':' + message['msg']}, room=room)
+    room = 1
+    emit('message', {'msg':message['name'] + ':' + message['msg']}, room=room)
 
 
 @socketio.on('left', namespace='/chat')
 def left(message):
-    room = session.get('room')
+    room = 1
     leave_room(room)
-    emit('status', {'msg': session.get('name', 'test') + ' has left the room.'}, room=room)
+    emit('status', {'msg': message['name'] + ' has left the room.'}, room=room)
 
 if __name__ == "__main__":
     socketio.run(app, debug=True, port=os.getenv("PORT"))

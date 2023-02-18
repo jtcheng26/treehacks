@@ -199,7 +199,10 @@ function Content() {
                   quiz={quiz}
                   loading={Object.keys(quiz).length === 0}
                 />
-                <ChatPanel visible={panel === "chat"} />
+                <ChatPanel
+                  visible={panel === "chat"}
+                  user={"Student " + parseInt(Math.random() * 100 + 1)}
+                />
 
                 {/* <PanelTemplate />/ */}
               </div>
@@ -218,7 +221,6 @@ const App = () => {
   return (
     <AppBase>
       {/* <Landing /> */}
-
 
       <Content />
     </AppBase>
