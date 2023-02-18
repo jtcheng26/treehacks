@@ -25,6 +25,12 @@ import {
   Space,
 } from "@dolbyio/comms-uikit-react";
 import JoinClassroomButton from "./components/buttons/JoinClassroomButton";
+import ToggleVideoButton from "./components/buttons/ToggleVideoButton";
+import ToggleAudioButton from "./components/buttons/ToggleAudioButton";
+import ToggleScreenShareButton from "./components/buttons/ToggleScreenShareButton";
+import PanelTemplate from "./components/panels/PanelTemplate";
+import MenuBar from "./components/MenuBar";
+import { PanelContext } from "./contexts/panel";
 
 // screen sharing shit
 const ScreenSharingActionBarTexts = {
@@ -53,7 +59,6 @@ const refreshToken = async () => token;
 // const participantInfo = { name: "John Doe" };
 
 const meetingName = "Math 61 Lecture 1";
-const leaveTooltipText = "Leave meeting";
 
 const localText = "you"; // The local participant's name.
 const muteText = "mute"; // Displayed in a tooltip when a participant is not muted.
@@ -82,7 +87,6 @@ const AppBase = ({ children }) => {
   );
 };
 
-
 // 4. Create `Content` component. It will be main component of our app. Wrap it with previously created `AppBase`. We'll also add a fixed height to the content as we'll need this later in the guide.
 
 function Content() {
@@ -110,96 +114,82 @@ function Content() {
 
   const { status, isLocalUserPresentationOwner, isPresentationModeActive } =
     useScreenSharing();
+  const [panel, setPanel] = useState("");
+  const value = { panel, setPanel };
 
   const isPresentationActive =
     status === ShareStatus.Active ||
     (isLocalUserPresentationOwner && isPresentationModeActive);
 
   return (
-    <div className="App" style={contentContainerStyle}>
-      <InfoBar
-        text="Voxeet Web SDK has been initialized."
-        style={{ margin: "0 auto" }}
-      />
-      <Session participantInfo={participantInfo}>
+    <PanelContext.Provider value={value}>
+      <div className="App" style={contentContainerStyle}>
         <InfoBar
-          text="Session has been created."
+          text="Voxeet Web SDK has been initialized."
           style={{ margin: "0 auto" }}
         />
-        {!conferenceId ? (
-          <div style={buttonContainerStyle}>
-            <div className="flex flex-col">
-              <img className="w-24 h-24" src="assets/zazu.png" />
-
-              <div>
-                <JoinClassroomButton
-                  meetingName={meetingName}
-                  onSuccess={(id) => setConferenceId(id)}
-                />
+        <Session participantInfo={participantInfo}>
+          <InfoBar
+            text="Session has been created."
+            style={{ margin: "0 auto" }}
+          />
+          {!conferenceId ? (
+            <div style={buttonContainerStyle}>
+              <div className="flex flex-col">
+                <div>
+                  <JoinClassroomButton
+                    meetingName={meetingName}
+                    onSuccess={(id) => setConferenceId(id)}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <Conference id={conferenceId}>
-            {isPresentationActive && (
-              <ScreenSharingActionBar
-                statusLabels={{
-                  active: ScreenSharingActionBarTexts.status.active,
-                  error: ScreenSharingActionBarTexts.status.error,
-                  loading: ScreenSharingActionBarTexts.status.loading,
-                  other: ScreenSharingActionBarTexts.status.other,
-                }}
-                buttonLabels={{
-                  tooltip: ScreenSharingActionBarTexts.button.tooltip,
-                  label: ScreenSharingActionBarTexts.button.label,
-                }}
-                guestLabel={ScreenSharingActionBarTexts.guest}
-              />
-            )}
-            {isPresentationActive && (
-              <Space style={{ height: 400 }}>
-                <ScreenSharingPresentationBox
-                  fallbackText={fallbackText}
-                  fallbackButtonText={fallbackButtonText}
+          ) : (
+            <Conference id={conferenceId}>
+              {isPresentationActive && (
+                <ScreenSharingActionBar
+                  statusLabels={{
+                    active: ScreenSharingActionBarTexts.status.active,
+                    error: ScreenSharingActionBarTexts.status.error,
+                    loading: ScreenSharingActionBarTexts.status.loading,
+                    other: ScreenSharingActionBarTexts.status.other,
+                  }}
+                  buttonLabels={{
+                    tooltip: ScreenSharingActionBarTexts.button.tooltip,
+                    label: ScreenSharingActionBarTexts.button.label,
+                  }}
+                  guestLabel={ScreenSharingActionBarTexts.guest}
                 />
-              </Space>
-            )}
-            <div className="h-full flex flex-row space-x-4 mx-4">
-              <ParticipantsGrid
-                localText={localText}
-                testID="ParticipantsGrid"
-                additionalContainerStyle={{ height: 600 }}
-              />
-              <div className="w-96 bg-slate-800 rounded-xl font-bold text-emerald-500 p-4">
+              )}
+              {isPresentationActive && (
+                <Space style={{ height: 400 }}>
+                  <ScreenSharingPresentationBox
+                    fallbackText={fallbackText}
+                    fallbackButtonText={fallbackButtonText}
+                  />
+                </Space>
+              )}
+              <div className="h-full flex flex-row space-x-4 mx-4">
+                <ParticipantsGrid
+                  localText={localText}
+                  testID="ParticipantsGrid"
+                  additionalContainerStyle={{ height: 600 }}
+                />
+                <PanelTemplate />
+                {/* <div className="w-96 bg-slate-800 rounded-xl font-bold text-emerald-500 p-4">
                 <div className="flex space-between w-full text-lg">
                   Zazu (TA)
                   <img className="h-24 ml-auto -mt-4" src="/assets/zazu.png" />
                 </div>
+              </div> */}
               </div>
-            </div>
-            {/* <ParticipantsList localText={localText} /> */}
-            <div className="w-full flex justify-center items-center px-4">
-              <div className="flex-grow">
-                <LeaveConferenceButton
-                  tooltipText={leaveTooltipText}
-                  onSuccess={() => setConferenceId(null)}
-                />
-              </div>
-              <div className="flex flex-row items-center space-x-2 flex-grow">
-                <LocalToggleAudioButton />
-                <LocalToggleVideoButton />
-                <ScreenShareButton />
-
-                {/* Code from previous examples has been removed for brevity */}
-              </div>
-              <div className="">
-                <LocalToggleVideoButton />
-              </div>
-            </div>
-          </Conference>
-        )}
-      </Session>
-    </div>
+              {/* <ParticipantsList localText={localText} /> */}
+              <MenuBar />
+            </Conference>
+          )}
+        </Session>
+      </div>
+    </PanelContext.Provider>
   );
 }
 
