@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
 import openai
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, jsonify
 # from flask_cors import CORS, cross_origin
+from utils import *
 
 """
 -- create poll
@@ -25,7 +26,8 @@ def index():
         response = openai.Completion.create(
             model = "text-davinci-003",
             prompt = "What is pigeonhole principle",
-            temperature = 0.6
+            temperature = 0.6,
+            max_tokens=200
         )
         return response.choices[0].text
     result  = request.args.get("result")
@@ -33,10 +35,21 @@ def index():
 
 @app.route("/generatePoll", methods=["GET", "POST"])
 def get_poll():
+    if request.method == "POST":
+        transcript = request.form["transcript"]
+        response = openai.Completion.create(
+            model = "text-davinci-003",
+            prompt = generate_poll_prompt(transcript=transcript),
+            temperature = 0.6,
+            max_tokens=200
+        )
+        return response.choices[0].text
+    result = request.args.get("result")
+    return jsonify({"result": result})
+
+@app.route("/generateQuiz", methods=["GET", "POST"])
+def get_quiz():
     pass
-
-
-    
 
 
 if __name__ == "__main__":
