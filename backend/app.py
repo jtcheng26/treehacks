@@ -76,6 +76,8 @@ def get_quiz():
     if request.method == "POST":
         while True:
             transcript = request.form["transcript"]
+            if len(transcript.split(" ")) <= 55:
+                return jsonify({})
             response = openai.Completion.create(
                 model = "text-davinci-003",
                 prompt = generate_quiz_prompt(transcript=transcript),

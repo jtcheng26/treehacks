@@ -11,5 +11,5 @@ def generate_summary_prompt(transcript: str) -> str:
     return prompt
 
 def generate_quiz_prompt(transcript: str) -> str:
-    prompt = f"generate one multiple choice quiz question using only numbers and a period after as identifiers on ({transcript}) with four different answers given. each answer should begin with first a number and then a following period ONLY and then end with a new line. At the end, show what the correct answer choice is and dont explain the answer. Also, make sure no answer choice has a period in it and no double identifers for the answer choices. Also, make sure that 3 of the answer choices are wrong answers."
+    prompt = f"generate one multiple choice quiz question using only numbers and a period after as identifiers on ({transcript}) with one correct answer choice, and three incorrect answer choices. each choice should begin with first a number and then a following period ONLY and then end with a new line. At the end, show what the correct answer choice is and dont explain the answer. Also, make sure no answer choice has a period in it and no double identifers for the answer choices. Also, make sure that 3 of the answer choices are wrong answers."
     return prompt
