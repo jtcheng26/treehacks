@@ -1,23 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 import { PRIMARY_COLOR } from "../../constants/colors";
-import { PanelContext } from "../../contexts/panel";
 import ZazuHeader from "./ZazuHeader";
 
 export default function PanelTemplate({
   borderColor = PRIMARY_COLOR[500],
   children,
 }) {
-  const { panel, setPanel } = useContext(PanelContext);
   return (
     <div
-      className="w-96 bg-slate-800 rounded-xl font-bold text-emerald-500 p-4"
+      className="transition-all duration-200 w-96 bg-slate-800 rounded-xl font-bold text-emerald-500 p-4 min-h-full"
       style={{
         borderWidth: "3px",
         borderColor: borderColor,
       }}
     >
       <ZazuHeader />
-      <div>{panel}</div>
+      <div className="flex flex-col h-full">{children}</div>
     </div>
   );
 }

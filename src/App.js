@@ -31,6 +31,7 @@ import ToggleScreenShareButton from "./components/buttons/ToggleScreenShareButto
 import PanelTemplate from "./components/panels/PanelTemplate";
 import MenuBar from "./components/MenuBar";
 import { PanelContext } from "./contexts/panel";
+import TAPanel from "./components/panels/TAPanel";
 
 // screen sharing shit
 const ScreenSharingActionBarTexts = {
@@ -121,6 +122,11 @@ function Content() {
     status === ShareStatus.Active ||
     (isLocalUserPresentationOwner && isPresentationModeActive);
 
+  const displayedPanel = {
+    ta: <TAPanel />,
+    "": "",
+  };
+
   return (
     <PanelContext.Provider value={value}>
       <div className="App" style={contentContainerStyle}>
@@ -175,15 +181,9 @@ function Content() {
                   testID="ParticipantsGrid"
                   additionalContainerStyle={{ height: 600 }}
                 />
-                <PanelTemplate />
-                {/* <div className="w-96 bg-slate-800 rounded-xl font-bold text-emerald-500 p-4">
-                <div className="flex space-between w-full text-lg">
-                  Zazu (TA)
-                  <img className="h-24 ml-auto -mt-4" src="/assets/zazu.png" />
-                </div>
-              </div> */}
+                {displayedPanel[panel]}
+                {/* <PanelTemplate />/ */}
               </div>
-              {/* <ParticipantsList localText={localText} /> */}
               <MenuBar />
             </Conference>
           )}
