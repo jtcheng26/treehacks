@@ -12,7 +12,7 @@ export default function MenuBar({ setConferenceId }) {
   const leaveTooltipText = "Leave meeting";
 
   return (
-    <div className="w-full flex justify-center items-center px-4">
+    <div className="w-full flex justify-center items-center px-4 z-20">
       <div className="flex-grow">
         <LeaveConferenceButton
           tooltipText={leaveTooltipText}
@@ -37,6 +37,7 @@ export default function MenuBar({ setConferenceId }) {
         <ToggleTAButton
           active={panel === "ta"}
           onClick={() => {
+            console.log(panel)
             if (panel === "ta") setPanel("");
             else setPanel("ta");
           }}

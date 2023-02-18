@@ -6,13 +6,14 @@ export default function MenuButtonTemplate({
   children,
 }) {
   return (
-    <div
+    <button
       className={`h-12 w-12 hover:bg-slate-100 hover:cursor-pointer ${
         !active ? "bg-slate-800" : "bg-slate-100"
       } rounded-lg text-emerald-500 flex justify-center items-center transition-all duration-200`}
       onClick={onClick}
+      type="button"
     >
       {children}
-    </div>
+    </button>
   );
 }

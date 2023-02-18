@@ -111,6 +111,7 @@ function Content() {
     backgroundColor: "#14141A",
     padding: "20px 0",
     boxSizing: "border-box",
+    overflow: "hidden"
   };
 
   const { status, isLocalUserPresentationOwner, isPresentationModeActive } =
@@ -181,7 +182,7 @@ function Content() {
                   testID="ParticipantsGrid"
                   additionalContainerStyle={{ height: 600 }}
                 />
-                {displayedPanel[panel]}
+                <TAPanel visible={panel === "ta"} />
 
                 {/* <PanelTemplate />/ */}
               </div>
