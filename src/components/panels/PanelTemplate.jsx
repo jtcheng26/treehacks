@@ -8,14 +8,14 @@ export default function PanelTemplate({
 }) {
   return (
     <div
-      className="transition-all duration-200 w-96 bg-slate-800 rounded-xl font-bold text-emerald-500 p-4"
+      className="transition-all duration-200 w-96 bg-slate-800 rounded-xl font-bold text-emerald-500 p-4 min-h-full"
       style={{
         borderWidth: "3px",
         borderColor: borderColor,
       }}
     >
       <ZazuHeader />
-      <div>{children}</div>
+      <div className="flex flex-col h-full">{children}</div>
     </div>
   );
 }
