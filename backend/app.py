@@ -4,7 +4,7 @@ import openai
 from flask import Flask, redirect, render_template, request, url_for, jsonify
 from firebase_admin import credentials, firestore, initialize_app
 from datetime import datetime
-# from flask_cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 from utils import *
 
 """
@@ -18,7 +18,7 @@ from utils import *
 load_dotenv()
 
 app = Flask(__name__)
-# CORS(app, support_credentials=True)
+CORS(app, support_credentials=True)
 openai.api_key = os.getenv("OPENAI_API_KEY") # Set in .env
 
 
