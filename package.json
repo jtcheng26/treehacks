@@ -18,15 +18,13 @@
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
+
     "react-speech-recognition": "^3.10.0",
->>>>>>> 01b3e0ec855718c6711910810fd65105bd20b136
+
     "react-transition-group": "^4.4.5",
-=======
+
     "react-simply-carousel": "^8.4.6",
->>>>>>> Stashed changes
+
     "web-vitals": "^2.1.4"
   },
   "scripts": {

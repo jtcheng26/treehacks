@@ -32,13 +32,10 @@ import PanelTemplate from "./components/panels/PanelTemplate";
 import MenuBar from "./components/MenuBar";
 import { PanelContext } from "./contexts/panel";
 import TAPanel from "./components/panels/TAPanel";
-<<<<<<< HEAD
 import Landing from "./components/buttons/pages/Landing";
 import Connecting from "./components/buttons/pages/Connecting";
-=======
 import SpeechToTextProcess from "./components/SpeechToTextProcess";
 import QuizPanel from "./components/panels/QuizPanel";
->>>>>>> 01b3e0ec855718c6711910810fd65105bd20b136
 
 // screen sharing shit
 const ScreenSharingActionBarTexts = {
@@ -218,7 +215,10 @@ function Content() {
 const App = () => {
   return (
     <AppBase>
-      <Connecting />
+      <Landing />
+
+
+      {/* <Content /> */}
     </AppBase>
   );
 };
