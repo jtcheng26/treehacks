@@ -7,10 +7,10 @@ import { Transition } from "react-transition-group";
 const duration = 300;
 
 const transitionStyles = {
-  entering: { width: 400, opacity: 1, padding: 16 },
-  entered: { width: 400, opacity: 1, padding: 16 },
-  exiting: { width: 0, opacity: 0, padding: 0 },
-  exited: { width: 0, opacity: 0, padding: 0 },
+  entering: { width: 400, opacity: 1, padding: 16, borderWidth: 3 },
+  entered: { width: 400, opacity: 1, padding: 16, borderWidth: 3 },
+  exiting: { width: 0, opacity: 0, padding: 0, borderWidth: 0 },
+  exited: { width: 0, opacity: 0, padding: 0, borderWidth: 0 },
 };
 
 export default function PanelTemplate({
@@ -21,6 +21,11 @@ export default function PanelTemplate({
   visible = false,
 }) {
   const nodeRef = useRef(null);
+  const [hide, setHide] = useState(false);
+  useEffect(() => {
+    if (!visible) setTimeout(() => setHide(true), 500);
+    else setHide(false);
+  }, [visible]);
   return (
     <Transition nodeRef={nodeRef} in={visible} timeout={duration} appear>
       {(state) => (
@@ -29,14 +34,17 @@ export default function PanelTemplate({
             "transition-all duration-700 bg-slate-800 rounded-xl font-bold min-h-full "
           }
           style={{
-            borderWidth: "3px",
             borderColor: borderColor,
             color: fontColor,
             ...transitionStyles[state],
           }}
         >
-          <ZazuHeader text={headerText} />
-          <div className="flex flex-col h-full">{children}</div>
+          {!hide && (
+            <>
+              <ZazuHeader text={headerText} />
+              <div className="flex flex-col h-full">{children}</div>
+            </>
+          )}
         </div>
       )}
     </Transition>

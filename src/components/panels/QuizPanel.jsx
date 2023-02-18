@@ -5,7 +5,7 @@ import QuizOption from "../buttons/QuizOption";
 import Loader from "../spinners/BeatLoader";
 import PanelTemplate from "./PanelTemplate";
 
-const duration = 100000;
+const duration = 15000;
 const transitionStyles = {
   entering: { width: 100 },
   entered: { width: 100 },
@@ -27,10 +27,9 @@ export default function QuizPanel({
     setSelected("");
     const to = setTimeout(() => {
       clearQuiz();
-    }, 100000);
+    }, duration);
     return () => clearTimeout(to);
   }, [quiz]);
-  const quizDuration = 100000;
   useEffect(() => {
     // post data depending on whether answer is right
   }, [selected]);
@@ -41,7 +40,7 @@ export default function QuizPanel({
       fontColor={SECONDARY_COLOR[500]}
       borderColor={SECONDARY_COLOR[500]}
     >
-      <div className="h-full">
+      <div className={"h-full relative"}>
         {loading ? (
           <div className="w-full h-full flex justify-center items-center">
             <Loader />
@@ -88,23 +87,22 @@ export default function QuizPanel({
             >
               {quiz.choice4}
             </QuizOption>
-
-            <div className="absolute botttom-0 bg-indigo-500 h-2 w-full">
-              <Transition
+            <div className="absolute top-96 bg-indigo-500 h-2 w-full rounded-full">
+              {/* <Transition
                 nodeRef={nodeRef}
                 in={barWidth === 100}
                 timeout={duration}
                 appear
               >
-                {(state) => (
-                  <div
-                    className="bg-indigo-300 h-2 transition-all duration-1000"
-                    style={{
-                      ...transitionStyles[state],
-                    }}
-                  />
-                )}
-              </Transition>
+                {(state) => ( */}
+              <div
+                className="bg-indigo-300 h-2 transition-all duration-1000 flex flex-row-reverse float-right rounded-full"
+                style={{
+                  animation: duration / 1000 + "s progress linear",
+                }}
+              />
+              {/* )}
+              </Transition> */}
             </div>
           </div>
         )}

@@ -64,7 +64,7 @@ export default function SpeechToTextProcess({
 }) {
   const { panel, setPanel } = useContext(PanelContext);
   async function generateQuizCommand() {
-    if (getWordsFromString(fullTranscript) >= MIN_WORDS_FOR_QUIZ) {
+    if (true) {
       setPanel("quiz");
       setQuiz({});
       setQuiz(
