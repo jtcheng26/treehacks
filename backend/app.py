@@ -43,6 +43,10 @@ def index():
 
 @app.route("/generatePoll", methods=["GET", "POST"])
 def get_poll():
+    pass
+
+@app.route("/generateQuiz", methods=["GET", "POST"])
+def get_quiz():
     if request.method == "POST":
         transcript = request.form["transcript"]
         response = openai.Completion.create(
@@ -54,10 +58,6 @@ def get_poll():
         return response.choices[0].text
     result = request.args.get("result")
     return jsonify({"result": result})
-
-@app.route("/generateQuiz", methods=["GET", "POST"])
-def get_quiz():
-    pass
 
 @app.route("/answerQuestion", methods=["GET", "POST"])
 def answer_question():
