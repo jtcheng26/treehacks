@@ -182,6 +182,7 @@ function Content() {
                   additionalContainerStyle={{ height: 600 }}
                 />
                 {displayedPanel[panel]}
+
                 {/* <PanelTemplate />/ */}
               </div>
               <MenuBar />

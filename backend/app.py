@@ -26,7 +26,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY") # Set in .env
 cred = credentials.Certificate("../key.json")
 default_app = initialize_app(cred)
 db = firestore.client()
-todo_ref = db.collection('summaries')
+summaries = db.collection('summaries')
+answers = db.collection('answers')
 
 @app.route("/", methods=("GET", "POST"))
 def index():
@@ -108,12 +109,26 @@ def get_quiz():
 def answer_question():
     if request.method == "POST":
         question = request.form["question"]
-        response = openai.Completion.create(
-            model = "text-davinci-003",
-            prompt = question,
-            temperature = 0.6,
-            max_tokens=200
-        )
+        ans = list(answers.stream())
+        if "elaborate" in question:
+            response = openai.Completion.create(
+                model = "text-davinci-003",
+                prompt = "Answer the question: " + question + "; while using the following as the latest interaction between you and the user:" + ans[-1].to_dict()["answer"],
+                temperature = 0.6,
+                max_tokens=200
+            )
+        else:
+            response = openai.Completion.create(
+                model = "text-davinci-003",
+                prompt = question,
+                temperature = 0.6,
+                max_tokens=200
+            )
+        answers.document(datetime.now().strftime("%Y-%m-%d:%H:%M:%S")).set({
+            "question" : question,
+            "answer": response.choices[0].text
+        })
+        
         return response.choices[0].text
     result  = request.args.get("result")
     return jsonify({"result": result})
@@ -128,13 +143,13 @@ def append_summary():
             max_tokens=200
         )
     
-    todo_ref.document(datetime.now().strftime("%Y-%m-%d:%H:%M:%S")).set({"summary" :response.choices[0].text})
+    summaries.document(datetime.now().strftime("%Y-%m-%d:%H:%M:%S")).set({"summary" :response.choices[0].text})
     return {"result": "True"}
 
 @app.route("/get/summarize", methods=["GET"])
 def get_summary():
     summary = ""
-    for doc in todo_ref.stream():
+    for doc in summaries.stream():
         summary += doc.to_dict()["summary"]
     return summary
 
