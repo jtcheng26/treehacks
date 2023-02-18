@@ -5,20 +5,6 @@ import Loader from "../spinners/BeatLoader";
 import PanelTemplate from "./PanelTemplate";
 import TextBox from "./TextBox";
 
-const duration = 300;
-
-const defaultStyle = {
-  height: 0,
-  opacity: 0,
-};
-
-const transitionStyles = {
-  entering: { height: 400, opacity: 1 },
-  entered: { height: 400, opacity: 1 },
-  exiting: { height: 0, opacity: 0 },
-  exited: { height: 0, opacity: 0 },
-};
-
 export default function TAPanel({ visible }) {
   const [messageHistory, setMessageHistory] = useState([]);
   const sampleMessage = {
@@ -52,7 +38,7 @@ export default function TAPanel({ visible }) {
     <PanelTemplate visible={visible}>
       <div className="relative h-full z-10">
         {messageHistory.length ? (
-          <div className="w-full overflow-hidden">
+          <div className="w-full h-full overflow-hidden">
             <div
               style={{
                 boxShadow: "0px 0px 10px 20px #1e293bcc",

@@ -32,6 +32,8 @@ import PanelTemplate from "./components/panels/PanelTemplate";
 import MenuBar from "./components/MenuBar";
 import { PanelContext } from "./contexts/panel";
 import TAPanel from "./components/panels/TAPanel";
+import SpeechToTextProcess from "./components/SpeechToTextProcess";
+import QuizPanel from "./components/panels/QuizPanel";
 
 // screen sharing shit
 const ScreenSharingActionBarTexts = {
@@ -54,7 +56,7 @@ const fallbackButtonText = "try again";
 
 // 2. Define the `CommsProvider` configuration. We need two properties, a `token` and an async function that refreshes it.
 const token =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkb2xieS5pbyIsImlhdCI6MTY3NjY4OTczOSwic3ViIjoiVENETEMtQmFKM1NRNkUyUXM4TG9Xdz09Iiwib2lkIjoiNzU5ZmM0MmYtMTQwMS00NGJlLTg4MjgtYzIyZTYxODI0ZTA3IiwiYmlkIjoiOGEzNjgwZGU4NjM2MjQwNDAxODY1MjMxY2Y1ODYzZTAiLCJhaWQiOiJjYmI5Y2YzNi1kMGJjLTQ4MTQtOGZiYy1iMmQ0M2MyMTM5NzIiLCJhdXRob3JpdGllcyI6WyJST0xFX0NVU1RPTUVSIl0sInRhcmdldCI6InNlc3Npb24iLCJleHAiOjE2NzY3MzI5Mzl9.gE9s-6S1AuZNRHnjyM7FD3HQsdmrBeCnRAxdScbnd7aLHK99sSsR2Z0fg3zVdsYMdWwV4O8KR8n91A-z1Ew5vA";
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkb2xieS5pbyIsImlhdCI6MTY3NjczOTMzNywic3ViIjoiVENETEMtQmFKM1NRNkUyUXM4TG9Xdz09Iiwib2lkIjoiNzU5ZmM0MmYtMTQwMS00NGJlLTg4MjgtYzIyZTYxODI0ZTA3IiwiYmlkIjoiOGEzNjgwZGU4NjM2MjQwNDAxODY1MjMxY2Y1ODYzZTAiLCJhaWQiOiJjYmI5Y2YzNi1kMGJjLTQ4MTQtOGZiYy1iMmQ0M2MyMTM5NzIiLCJhdXRob3JpdGllcyI6WyJST0xFX0NVU1RPTUVSIl0sInRhcmdldCI6InNlc3Npb24iLCJleHAiOjE2NzY3ODI1Mzd9.gvO61s2kMbRbPzXrGTb0KfNkI3WX7D1iElX44AEou1DB964ATqZE8yxOdHgkEcFAz-KBKZWc_XtwUWYzhj88rg";
 const refreshToken = async () => token;
 
 // const participantInfo = { name: "John Doe" };
@@ -111,7 +113,7 @@ function Content() {
     backgroundColor: "#14141A",
     padding: "20px 0",
     boxSizing: "border-box",
-    overflow: "hidden"
+    overflow: "hidden",
   };
 
   const { status, isLocalUserPresentationOwner, isPresentationModeActive } =
@@ -128,8 +130,11 @@ function Content() {
     "": "",
   };
 
+  const [quiz, setQuiz] = useState({});
+
   return (
     <PanelContext.Provider value={value}>
+      <SpeechToTextProcess />
       <div className="App" style={contentContainerStyle}>
         <InfoBar
           text="Voxeet Web SDK has been initialized."
@@ -143,6 +148,7 @@ function Content() {
           {!conferenceId ? (
             <div style={buttonContainerStyle}>
               <div className="flex flex-col">
+                <SpeechToTextProcess setQuiz={setQuiz} />
                 <div>
                   <JoinClassroomButton
                     meetingName={meetingName}
@@ -176,6 +182,7 @@ function Content() {
                   />
                 </Space>
               )}
+              <SpeechToTextProcess setQuiz={setQuiz} />
               <div className="h-full flex flex-row space-x-4 mx-4">
                 <ParticipantsGrid
                   localText={localText}
@@ -183,6 +190,12 @@ function Content() {
                   additionalContainerStyle={{ height: 600 }}
                 />
                 <TAPanel visible={panel === "ta"} />
+                <QuizPanel
+                  clearQuiz={() => setPanel("")}
+                  visible={panel === "quiz"}
+                  quiz={quiz}
+                  loading={Object.keys(quiz).length === 0}
+                />
 
                 {/* <PanelTemplate />/ */}
               </div>
