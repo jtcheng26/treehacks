@@ -1,4 +1,5 @@
 import os
+import re
 from dotenv import load_dotenv
 import openai
 from flask import Flask, redirect, render_template, request, url_for, jsonify
@@ -51,13 +52,57 @@ def get_quiz():
         transcript = request.form["transcript"]
         response = openai.Completion.create(
             model = "text-davinci-003",
-            prompt = generate_poll_prompt(transcript=transcript),
+            prompt = generate_quiz_prompt(transcript=transcript),
             temperature = 0.6,
             max_tokens=200
         )
-        return response.choices[0].text
+        # process data
+        quiz = {
+            "question" : "",
+            "choice1": "",
+            "choice2": "",
+            "choice3": "",
+            "choice4": "",
+            "answer": 0
+        }
+        resList = (response.choices[0].text).split("\n")
+        resList = [res for res in resList if res.strip() != ""]
+        ans = 1
+        for c in resList[-1]:
+            if c.isdigit():
+                ans = int(c)
+                break
+        if ans > 4:
+            ans %= 4
+            ans += 1
+        quiz["answer"] = ans
+        if resList[0].count(".") == 0 and resList[0].count(":") == 0:
+            quiz["question"] = resList[0]
+        elif resList[0].count(":") == 1:
+            quiz["question"] = re.split("\:", resList[0])[1].strip()
+        elif (resList[0].count(".") == 1):
+            quiz["question"] = re.split("\.", resList[0])[1].strip()
+        else:
+            quiz["question"] = re.split("\..*\.", resList[0][:-1])[1].strip() if resList[0][-1] == '.' else re.split("\..*\.", resList[0])[1].strip()
+        if (resList[1].count(".") <= 2):
+            quiz["choice1"] = re.split("\.", resList[1])[1].strip()
+        else:
+            quiz["choice1"] = re.split("\..*\.", resList[1][:-1])[1].strip() if resList[1][-1] == '.' else re.split("\..*\.", resList[1])[1].strip()
+        if (resList[2].count(".") <= 2):
+            quiz["choice2"] = re.split("\.", resList[2])[1].strip()
+        else:
+            quiz["choice2"] = re.split("\..*\.", resList[2][:-1])[1].strip() if resList[2][-1] == '.' else re.split("\..*\.", resList[2])[1].strip()
+        if (resList[3].count(".") <= 2):
+            quiz["choice3"] = re.split("\.", resList[3])[1].strip()
+        else:
+            quiz["choice3"] = re.split("\..*\.", resList[3][:-1])[1].strip() if resList[3][-1] == '.' else re.split("\..*\.", resList[3])[1].strip()
+        if (resList[4].count(".") <= 2):
+            quiz["choice4"] = re.split("\.", resList[4])[1].strip()
+        else:
+            quiz["choice4"] = re.split("\..*\.", resList[4][:-1])[1].strip() if resList[4][-1] == '.' else re.split("\..*\.", resList[4])[1].strip()
+        return jsonify(quiz)
     result = request.args.get("result")
-    return jsonify({"result": result})
+    return result
 
 @app.route("/answerQuestion", methods=["GET", "POST"])
 def answer_question():
