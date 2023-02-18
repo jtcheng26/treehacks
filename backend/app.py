@@ -75,7 +75,9 @@ def get_poll():
 def get_quiz():
     if request.method == "POST":
         while True:
-            transcript = request.form["transcript"]
+            old_transcript = request.form["transcript"]
+            # Make sure only ever one space is 
+            transcript = re.sub(' +', ' ', old_transcript)
             if len(transcript.split(" ")) <= 75:
                 response = openai.Completion.create(
                     model = "text-davinci-003",
@@ -122,19 +124,19 @@ def get_quiz():
                             ans = 4
             else:
                 for c in resList[-1]:
-                    if c.isdigit():
+                    if c.isdigit() and int(c) != 0:
                         ans = int(c)
                         break
             quiz["answer"] = ans
-            # if resList[0].count(".") == 0 and resList[0].count(":") == 0:
-            #     quiz["question"] = resList[0]
-            # elif resList[0].count(":") == 1:
-            #     quiz["question"] = re.split("\:", resList[0])[1].strip()
-            # elif (resList[0].count(".") == 1):
-            #     quiz["question"] = re.split("\.", resList[0])[1].strip()
-            # else:
-            #     quiz["question"] = re.split("\..*\.", resList[0][:-1])[1].strip() if resList[0][-1] == '.' else re.split("\..*\.", resList[0])[1].strip()
-            quiz["question"] = resList[0].strip()
+            if resList[0].count(".") == 0 and resList[0].count(":") == 0:
+                quiz["question"] = resList[0]
+            elif resList[0].count(":") == 1:
+                quiz["question"] = re.split("\:", resList[0])[1].strip()
+            elif (resList[0].count(".") == 1):
+                quiz["question"] = re.split("\.", resList[0])[1].strip()
+            else:
+                quiz["question"] = re.split("\..*\.", resList[0][:-1])[1].strip() if resList[0][-1] == '.' else re.split("\..*\.", resList[0])[1].strip()
+            # quiz["question"] = resList[0].strip()
             if (resList[1].count(".") <= 2):
                 quiz["choice1"] = re.split("\.", resList[1])[1].strip()
             else:
