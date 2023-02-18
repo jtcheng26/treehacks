@@ -32,7 +32,7 @@ export default function JoinClassroomButton({ onSuccess, meetingName }) {
       style={{
         width: "240px",
         height: "70px",
-        marginLeft: "75px",
+        marginLeft: "3%",
         float: "left",
         textAlign: "center",
         fontSize: "18px",
