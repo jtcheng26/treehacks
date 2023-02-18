@@ -6,10 +6,10 @@ export default function Logo() {
             </div> 
             <div className="flex-row" style={{position: 'relative'}}>
                 <div style={{display:'inline-block', position: 'absolute', top: '58%', left: '50%', transform: 'translate(0, -50%)', width: '200px'}}>
-                    <h1 className="font-bold font-sans" style={{fontSize: '50px', color: '#39b37a', lineHeight: '50px'}}>
+                    <h1 className="font-bold font-sans" style={{fontSize: '50px', color: '#10B981', lineHeight: '50px'}}>
                         Zazu
                     </h1>
-                    <h3 className="font-sans" style={{color: '#4bb383'}}>
+                    <h3 className="font-sans" style={{color: '#10B981'}}>
                         Your AI Teaching Assistant
                     </h3>
                 </div>

@@ -32,6 +32,8 @@ import PanelTemplate from "./components/panels/PanelTemplate";
 import MenuBar from "./components/MenuBar";
 import { PanelContext } from "./contexts/panel";
 import TAPanel from "./components/panels/TAPanel";
+import Landing from "./components/buttons/pages/Landing";
+import Connecting from "./components/buttons/pages/Connecting";
 
 // screen sharing shit
 const ScreenSharingActionBarTexts = {
@@ -200,7 +202,7 @@ function Content() {
 const App = () => {
   return (
     <AppBase>
-      <Content />
+      <Connecting />
     </AppBase>
   );
 };
