@@ -126,14 +126,15 @@ def get_quiz():
                         ans = int(c)
                         break
             quiz["answer"] = ans
-            if resList[0].count(".") == 0 and resList[0].count(":") == 0:
-                quiz["question"] = resList[0]
-            elif resList[0].count(":") == 1:
-                quiz["question"] = re.split("\:", resList[0])[1].strip()
-            elif (resList[0].count(".") == 1):
-                quiz["question"] = re.split("\.", resList[0])[1].strip()
-            else:
-                quiz["question"] = re.split("\..*\.", resList[0][:-1])[1].strip() if resList[0][-1] == '.' else re.split("\..*\.", resList[0])[1].strip()
+            # if resList[0].count(".") == 0 and resList[0].count(":") == 0:
+            #     quiz["question"] = resList[0]
+            # elif resList[0].count(":") == 1:
+            #     quiz["question"] = re.split("\:", resList[0])[1].strip()
+            # elif (resList[0].count(".") == 1):
+            #     quiz["question"] = re.split("\.", resList[0])[1].strip()
+            # else:
+            #     quiz["question"] = re.split("\..*\.", resList[0][:-1])[1].strip() if resList[0][-1] == '.' else re.split("\..*\.", resList[0])[1].strip()
+            quiz["question"] = resList[0].strip()
             if (resList[1].count(".") <= 2):
                 quiz["choice1"] = re.split("\.", resList[1])[1].strip()
             else:
@@ -150,7 +151,7 @@ def get_quiz():
                 quiz["choice4"] = re.split("\.", resList[4])[1].strip()
             else:
                 quiz["choice4"] = re.split("\..*\.", resList[4][:-1])[1].strip() if resList[4][-1] == '.' else re.split("\..*\.", resList[4])[1].strip()
-            if quiz["choice1"] != "" and quiz["choice2"] != "" and quiz["choice3"] != "" and quiz["choice4"] != "":
+            if quiz["choice1"] != "" and quiz["choice2"] != "" and quiz["choice3"] != "" and quiz["choice4"] != "" and quiz["question"] != "":
                 break
         return jsonify(quiz)
     result = request.args.get("result")
