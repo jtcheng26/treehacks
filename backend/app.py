@@ -7,13 +7,15 @@ from firebase_admin import credentials, firestore, initialize_app
 from datetime import datetime
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask_session import Session
 from utils import *
 
 load_dotenv()
 
 app = Flask(__name__)
+Session(app)
 CORS(app, support_credentials=True)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins=['http://localhost:3000'], manage_session=False)
 openai.api_key = os.getenv("OPENAI_API_KEY") # Set in .env
 
 
@@ -214,20 +216,20 @@ def get_summary():
 def joined(message):
     room = session.get('room')
     join_room(room)
-    emit('status', {'msg': session.get('name') + ' has entered the room.'}, room=room)
+    emit('status', {'msg': session.get('name', 'test') + ' has entered the room.'}, room=room)
 
 
 @socketio.on('text', namespace='/chat')
 def text(message):
     room = session.get('room')
-    emit('message', {'msg': session.get('name') + ':' + message['msg']}, room=room)
+    emit('message', {'msg': session.get('name', 'test') + ':' + message['msg']}, room=room)
 
 
 @socketio.on('left', namespace='/chat')
 def left(message):
     room = session.get('room')
     leave_room(room)
-    emit('status', {'msg': session.get('name') + ' has left the room.'}, room=room)
+    emit('status', {'msg': session.get('name', 'test') + ' has left the room.'}, room=room)
 
 if __name__ == "__main__":
     socketio.run(app, debug=True, port=os.getenv("PORT"))

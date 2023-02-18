@@ -31,7 +31,8 @@ export default function PanelTemplate({
       {(state) => (
         <div
           className={
-            "transition-all duration-700 bg-slate-800 rounded-xl font-bold min-h-full "
+            "transition-all duration-700 bg-slate-800 rounded-xl font-bold min-h-full " +
+            (visible ? "ml-4" : "")
           }
           style={{
             borderColor: borderColor,

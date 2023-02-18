@@ -36,6 +36,7 @@ import Landing from "./components/buttons/pages/Landing";
 import Connecting from "./components/buttons/pages/Connecting";
 import SpeechToTextProcess from "./components/SpeechToTextProcess";
 import QuizPanel from "./components/panels/QuizPanel";
+import ChatPanel from "./components/panels/ChatPanel";
 
 // screen sharing shit
 const ScreenSharingActionBarTexts = {
@@ -185,7 +186,7 @@ function Content() {
                 </Space>
               )}
               <SpeechToTextProcess setQuiz={setQuiz} />
-              <div className="h-full flex flex-row space-x-4 mx-4">
+              <div className="h-full flex flex-row mx-4">
                 <ParticipantsGrid
                   localText={localText}
                   testID="ParticipantsGrid"
@@ -198,6 +199,7 @@ function Content() {
                   quiz={quiz}
                   loading={Object.keys(quiz).length === 0}
                 />
+                <ChatPanel visible={panel === "chat"} />
 
                 {/* <PanelTemplate />/ */}
               </div>
@@ -215,10 +217,10 @@ function Content() {
 const App = () => {
   return (
     <AppBase>
-      <Landing />
+      {/* <Landing /> */}
 
 
-      {/* <Content /> */}
+      <Content />
     </AppBase>
   );
 };
