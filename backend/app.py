@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 import openai
 from flask import Flask, redirect, render_template, request, url_for
+# from flask_cors import CORS, cross_origin
 
 """
 -- create poll
@@ -14,33 +15,29 @@ from flask import Flask, redirect, render_template, request, url_for
 load_dotenv()
 
 app = Flask(__name__)
+# CORS(app, support_credentials=True)
 openai.api_key = os.getenv("OPENAI_API_KEY") # Set in .env
 
 @app.route("/", methods=("GET", "POST"))
 def index():
-    # if request.method == "POST":
-    #     animal = request.form["animal"]
-    #     response = openai.Completion.create(
-    #         model="text-davinci-003",
-    #         prompt=generate_prompt(animal),
-    #         temperature=0.6,
-    #     )
-    #     return response.choices[0].text
-
-    # result = request.args.get("result")
-    # return result
+    # This allows you to get a response from chatgpts
     if request.method == "POST":
         response = openai.Completion.create(
             model = "text-davinci-003",
-            prompt = "What is the pigeonhole principle?",
+            prompt = "What is pigeonhole principle",
             temperature = 0.6
         )
         return response.choices[0].text
     result  = request.args.get("result")
     return result
 
-def generate_prompt():
-    return "What is the pigeonhole principle"
+@app.route("/generatePoll", methods=["GET", "POST"])
+def get_poll():
+    pass
+
+
+    
+
 
 if __name__ == "__main__":
     app.run(port=os.getenv("PORT"))
