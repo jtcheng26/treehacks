@@ -71,7 +71,7 @@ def answer_question():
         )
         return response.choices[0].text
     result  = request.args.get("result")
-    return result
+    return jsonify({"result": result})
 
 @app.route("/post/summarize", methods=["POST"])
 def append_summary():
