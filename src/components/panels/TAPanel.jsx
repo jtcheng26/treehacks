@@ -16,7 +16,7 @@ export default function TAPanel() {
   const enter = async () => {
     if (studentQuery === "") return;
     console.log("Submitssion");
-    messageHistory.push({
+    messageHistory.unshift({
       sender: "student",
       message: studentQuery,
     });
@@ -26,40 +26,49 @@ export default function TAPanel() {
     const data = await sendStudentQuery(studentQuery);
     setLoading(false);
     setMessageHistory(
-      messageHistory.concat([
+      [
         {
           sender: "TA",
           message: data,
         },
-      ])
+      ].concat(messageHistory)
     );
   };
   return (
     <PanelTemplate>
       <div className="relative h-full">
         {messageHistory.length ? (
-          <div className="overflow-y-auto max-h-80">
-            {messageHistory.map((m, i) => (
-              <div key={m.sender + " " + i} className="my-2">
-                <div
-                  className={`${
-                    m.sender === "TA"
-                      ? "inline-block from-emerald-500 to-indigo-500 bg-gradient-to-r bg-clip-text text-transparent"
-                      : "text-emerald-500"
-                  } font-normal text-xs`}
-                >
-                  {m.sender === "TA" ? "Zazu (TA)" : m.sender + " (You)"}
+          <div className="w-full h-full overflow-hidden">
+            <div
+              style={{
+                boxShadow: "0px 0px 10px 20px #1e293bcc",
+                zIndex: 100,
+                position: "relative",
+              }}
+            />
+            <div className="overflow-y-scroll max-h-80 box-content pr-5 w-full h-full z-10 relative flex flex-col-reverse">
+              {loading && (
+                <div className="flex justify-center items-center mt-2">
+                  <Loader color={PRIMARY_COLOR[500]} />
                 </div>
-                <div className={`font-normal text-sm text-slate-400`}>
-                  {m.message}
+              )}
+              {messageHistory.map((m, i) => (
+                <div key={m.sender + " " + i} className="my-2">
+                  <div
+                    className={`${
+                      m.sender === "TA"
+                        ? "inline-block from-emerald-500 to-indigo-500 bg-gradient-to-r bg-clip-text text-transparent"
+                        : "text-emerald-500"
+                    } font-normal text-xs`}
+                  >
+                    {m.sender === "TA" ? "Zazu (TA)" : m.sender + " (You)"}
+                  </div>
+                  <div className={`font-normal text-sm text-slate-400`}>
+                    {m.message}
+                  </div>
                 </div>
-              </div>
-            ))}
-            {loading && (
-              <div className="flex justify-center items-center mt-2">
-                <Loader color={PRIMARY_COLOR[500]} />
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         ) : (
           <div className="mt-24 flex-grow">
