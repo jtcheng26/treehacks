@@ -3,8 +3,13 @@
 def has_numbers(inputString):
     return any(char.isdigit() or char == '.' or char == ')' for char in inputString)
 
-def generate_poll_prompt(transcript: str) -> str:
-    pass
+def find_topic(transcript: str) -> str:
+    prompt = f"What is {transcript} talking about in a few words"
+    return prompt
+
+def info_on_new_topic(topic: str) -> str:
+    prompt = f"Write a 3 sentence summar on {topic}"
+    return prompt
 
 def generate_summary_prompt(transcript: str) -> str:
     prompt = "Create a few bullet points summary on: " + transcript
