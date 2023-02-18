@@ -109,6 +109,7 @@ def get_quiz():
             }
             resList = (response.choices[0].text).split("\n")
             resList = [res for res in resList if res.strip() != ""]
+            # return resList
             ans = 1
             if resList[1][0].isalpha():
                 for i in range(len(resList[-1]) - 1):
@@ -142,15 +143,15 @@ def get_quiz():
             else:
                 quiz["choice1"] = re.split("\..*\.", resList[1][:-1])[1].strip() if resList[1][-1] == '.' else re.split("\..*\.", resList[1])[1].strip()
             if (resList[2].count(".") <= 2):
-                quiz["choice2"] = re.split("\.", resList[2])[1].strip()
+                quiz["choice2"] = re.split("\.", resList[2][:-1])[1].strip() if resList[2][-1] == '.' else re.split("\.", resList[2])[1].strip()
             else:
                 quiz["choice2"] = re.split("\..*\.", resList[2][:-1])[1].strip() if resList[2][-1] == '.' else re.split("\..*\.", resList[2])[1].strip()
             if (resList[3].count(".") <= 2):
-                quiz["choice3"] = re.split("\.", resList[3])[1].strip()
+                quiz["choice3"] = re.split("\.", resList[3][:-1])[1].strip() if resList[3][-1] == '.' else re.split("\.", resList[3])[1].strip()
             else:
                 quiz["choice3"] = re.split("\..*\.", resList[3][:-1])[1].strip() if resList[3][-1] == '.' else re.split("\..*\.", resList[3])[1].strip()
             if (resList[4].count(".") <= 2):
-                quiz["choice4"] = re.split("\.", resList[4])[1].strip()
+                quiz["choice4"] = re.split("\.", resList[4][:-1])[1].strip() if resList[4][-1] == '.' else re.split("\.", resList[4])[1].strip()
             else:
                 quiz["choice4"] = re.split("\..*\.", resList[4][:-1])[1].strip() if resList[4][-1] == '.' else re.split("\..*\.", resList[4])[1].strip()
             if quiz["choice1"] != "" and quiz["choice2"] != "" and quiz["choice3"] != "" and quiz["choice4"] != "" and quiz["question"] != "":

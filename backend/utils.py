@@ -8,7 +8,7 @@ def find_topic(transcript: str) -> str:
     return prompt
 
 def info_on_new_topic(topic: str) -> str:
-    prompt = f"Write a 3 sentence summar on {topic}"
+    prompt = f"Write a couple sentences summary on {topic}"
     return prompt
 
 def generate_summary_prompt(transcript: str) -> str:
