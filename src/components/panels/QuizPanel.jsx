@@ -100,7 +100,7 @@ export default function QuizPanel({
                   <div
                     className="bg-indigo-300 h-2 transition-all duration-1000"
                     style={{
-                      ...transitionStyles[state],
+                      width: transitionStyles[state].width + "%",
                     }}
                   />
                 )}
