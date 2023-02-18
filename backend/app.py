@@ -33,7 +33,7 @@ def test():
         response = openai.Completion.create(
             model = "text-davinci-003",
             prompt = "What is pigeonhole principle",
-            temperature = 0.9,
+            temperature = 1.3,
             max_tokens=200
         )
         return response.choices[0].text
@@ -82,20 +82,20 @@ def get_quiz():
                 response = openai.Completion.create(
                     model = "text-davinci-003",
                     prompt = find_topic(transcript=transcript),
-                    temperature = 0.9,
+                    temperature = 1.3,
                     max_tokens = 200
                 )
                 new_response = openai.Completion.create(
                     model = "text-davinci-003",
                     prompt = info_on_new_topic(topic=response.choices[0].text),
-                    temperature = 0.9,
+                    temperature = 1.3,
                     max_tokens = 200
                 )
                 transcript = new_response.choices[0].text + transcript
             response = openai.Completion.create(
                 model = "text-davinci-003",
                 prompt = generate_quiz_prompt(transcript=transcript),
-                temperature = 0.9,
+                temperature = 1.3,
                 max_tokens=200
             )
             # process data
@@ -169,14 +169,14 @@ def answer_question():
             response = openai.Completion.create(
                 model = "text-davinci-003",
                 prompt = "Answer the question: " + question + "; while using the following as the latest interaction between you and the user:" + ans[-1].to_dict()["answer"],
-                temperature = 0.9,
+                temperature = 1.3,
                 max_tokens=200
             )
         else:
             response = openai.Completion.create(
                 model = "text-davinci-003",
                 prompt = question,
-                temperature = 0.9,
+                temperature = 1.3,
                 max_tokens=200
             )
         answers.document(datetime.now().strftime("%Y-%m-%d:%H:%M:%S")).set({
@@ -194,7 +194,7 @@ def append_summary():
     response = openai.Completion.create(
             model = "text-davinci-003",
             prompt = generate_summary_prompt(transcript=transcript),
-            temperature = 0.9,
+            temperature = 1.3,
             max_tokens=200
         )
     
