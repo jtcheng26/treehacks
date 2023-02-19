@@ -49,7 +49,7 @@ export default function Landing() {
             <div
               className="flex"
               style={{
-                marginLeft: "10vw",
+                marginLeft: "8vw",
                 marginTop: "4vh",
                 marginBottom: "auto",
               }}
@@ -75,20 +75,20 @@ export default function Landing() {
             height: "95vh",
             background: "#6EE7B7",
             position: "absolute",
-            right: "-21vw",
-            top: "60vh",
+            right: "-40vw",
+            top: "40vh",
             opacity: "0.7",
           }}
         ></div>
         <div
           style={{
             borderRadius: "50%",
-            width: "100vh",
-            height: "100vh",
+            width: "250vh",
+            height: "250vh",
             background: "#10B981",
             position: "absolute",
-            right: "6vw",
-            top: "80vh",
+            right: "-42vw",
+            top: "85vh",
             opacity: "0.6",
           }}
         ></div>

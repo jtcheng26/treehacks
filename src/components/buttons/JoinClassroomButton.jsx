@@ -36,7 +36,7 @@ export default function JoinClassroomButton({ onSuccess, meetingName }) {
         marginTop: '2vh',
         float: "left",
         textAlign: "center",
-        fontSize: "2.1vh",
+        fontSize: "1.9vh",
         paddingTop: "2vh",
       }}
     >
