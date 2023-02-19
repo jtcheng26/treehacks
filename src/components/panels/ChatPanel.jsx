@@ -61,7 +61,7 @@ export default function ChatPanel({ visible, user = "test" }) {
   const [loading, setLoading] = useState(false);
   const enter = useCallback(async () => {
     if (studentQuery === "") return;
-    console.log("Submitssion");
+    console.log("Submission");
     setMessageHistory([
       {
         sender: "student",
