@@ -145,6 +145,7 @@ export default function SpeechToTextProcess({
     // return () => SpeechRecognition.stopListening();
   }, [tmp, debug]);
   useMemo(() => {
+    
     if (!listening && isAudio) {
       if (finalTranscript.trim().length) {
         const newFull = fullTranscript + " " + finalTranscript;
