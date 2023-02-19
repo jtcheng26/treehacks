@@ -5,6 +5,7 @@ export default function EnterMeetingCode() {
     return (
         <div style={{float: 'left'}}>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <form label=''>
                 <input 
                 className="font-sans"
@@ -14,6 +15,8 @@ export default function EnterMeetingCode() {
                 </input>
                 <CustomMeetingButton/>
 =======
+=======
+>>>>>>> Stashed changes
             <form label='' className="flex flex-row items-center">
                 <div>
                     <input 
@@ -26,7 +29,6 @@ export default function EnterMeetingCode() {
                 <div>
                     <CustomMeetingButton/>
                 </div>
->>>>>>> Stashed changes
             </form>
         </div>
     );

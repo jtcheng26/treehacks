@@ -73,7 +73,7 @@ function ReactSimplyCarouselExample() {
         <div className='flex-col' style={carousel_obj}>
           <img src="assets/quiz.png" style={img_prop}/>
           <p className='font-sans font-bold' style={desc_prop}>
-            Zazu will quiz students based on lecture material on command
+            Zazu can quiz students based on lecture material on command
           </p>
         </div>
       </ReactSimplyCarousel>
