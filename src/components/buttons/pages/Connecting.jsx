@@ -47,20 +47,19 @@ export default function Connecting({ conferenceId, setConferenceId }) {
     >
       <Session participantInfo={{ name: makeid(6) }}>
         <Conference id={conferenceId}>
-          <div style={{ paddingLeft: "45px" }}>
-            <Logo />
-          </div>
           <div
             className="flex flex-row min-w-screen"
-            style={{ width: "100%", marginLeft: 45 }}
           >
+            <div style={{ paddingLeft: "3vw" }}>
+                <Logo />
+            </div>
             <div
               className="flex flex-col"
-              style={{ alignItems: "center", justifyContent: "center" }}
+              style={{ alignItems: "center", justifyContent: "center", marginLeft: '5vw'}}
             >
               <p
                 className="font-sans font-bold"
-                style={{ marginBottom: 50, fontSize: 30 }}
+                style={{ marginBottom: '3vh', fontSize: '3vh' }}
               >
                 Get ready to join your lecture!
               </p>
@@ -68,24 +67,25 @@ export default function Connecting({ conferenceId, setConferenceId }) {
                 <input
                   className="font-sans"
                   style={{
-                    fontSize: 18,
-                    width: "270px",
-                    height: "55px",
-                    border: "3px black solid",
+                    fontSize: '2vh',
+                    width: "16vw",
+                    height: "5.7vh",
+                    border: "0.4vh black solid",
+                    outline: 'none',
                     textAlign: "center",
                     borderRadius: 20,
-                    marginRight: 20,
+                    marginRight: '2vw',
                   }}
                   placeholder="enter your name here"
                 />
                 <button
                   className="font-sans hover:scale-110 hover:cursor-pointer transition-all ease-in-out"
                   style={{
-                    fontSize: 20,
+                    fontSize: '2vh',
                     background: "#1e293b",
                     borderRadius: 20,
-                    width: 100,
-                    height: 55,
+                    width: '6vw',
+                    height: '5.7vh',
                     color: PRIMARY_COLOR[500],
                   }}
                   onClick={onJoin}
@@ -97,22 +97,22 @@ export default function Connecting({ conferenceId, setConferenceId }) {
             <div
               className="flex flex-col"
               style={{
-                marginLeft: "10%",
-                height: 500,
-                width: 800,
+                marginLeft: "7vw",
+                height: '50vh',
+                width: '50vw',
                 alignSelf: "center",
                 justifyContent: "center",
               }}
             >
               <Space
                 className="flex"
-                style={{ height: 500, width: 800, justifyContent: "center" }}
+                style={{ height: '60vh', width: '50vw', justifyContent: "center" }}
               >
                 <VideoLocalView isMicrophonePermission={true} />
               </Space>
               <div
-                className="flex flex-row space-x-10"
-                style={{ justifyContent: "center", paddingTop: 20 }}
+                className="flex flex-row space-x-20"
+                style={{ justifyContent: "center" }}
               >
                 <ToggleAudioButton />
                 <ToggleVideoButton />
@@ -124,24 +124,24 @@ export default function Connecting({ conferenceId, setConferenceId }) {
       <div
         style={{
           borderRadius: "50%",
-          width: "837px",
-          height: "837px",
+          width: "90vh",
+          height: "90vh",
           background: "#8284F3",
           position: "absolute",
-          left: "-25%",
-          top: "58%",
+          left: "-25vw",
+          top: "58vh",
           opacity: "0.5",
         }}
       ></div>
       <div
         style={{
           borderRadius: "50%",
-          width: "900px",
-          height: "900px",
+          width: "96vh",
+          height: "96vh",
           background: "#A1A3F6",
           position: "absolute",
-          left: "7%",
-          top: "80%",
+          left: "7vw",
+          top: "80vh",
           opacity: "0.5",
         }}
       ></div>

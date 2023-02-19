@@ -6,7 +6,7 @@ export default function CustomMeetingButton() {
             <button type='submit'>
                 <img className="hover:scale-125 hover:cursor-pointer transition-all ease-in-out"
                 src="assets/chevron-right.svg"
-                style={{display: 'inline-flex', marginLeft: '470px'}}
+                style={{display: 'inline-flex', marginLeft: '25.5vw', marginTop: '1.85vh'}}
                 />
             </button>
         </div>

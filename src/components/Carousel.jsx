@@ -7,7 +7,7 @@ function ReactSimplyCarouselExample() {
     width: '450px',
     height: '450px',
     alignItems: 'center',
-    display: 'flex'
+    display: 'flex',
   }
   const img_prop = {
     width: '300px',

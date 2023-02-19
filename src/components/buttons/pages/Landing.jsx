@@ -22,26 +22,26 @@ export default function Landing() {
       >
         <div>
           <div className="flex flex-col">
-            <div style={{ paddingLeft: "3%" }}>
+            <div style={{ marginLeft: "3vw" }}>
               <Logo />
             </div>
           </div>
-          <div className="flex-row flex" style={{ height: "550px" }}>
+          <div className="flex-row flex" style={{ height: "50vh" }}>
             <div
               style={{
-                height: "80%",
-                width: "45%",
-                marginLeft: "3%",
-                marginTop: "auto",
+                height: "50vh",
+                width: "40vw",
+                marginLeft: "3.5vw",
+                marginTop: "4vh",
                 marginBottom: "auto",
               }}
             >
-              <h1 className="font-bold font-sans" style={{ fontSize: "65px" }}>
+              <h1 className="font-bold font-sans" style={{ fontSize: "6.7vh" }}>
                 Meet Zazu, your very own personal AI Teaching Assistant!
               </h1>
               <p
                 className="font-sans"
-                style={{ fontSize: "30px", marginTop: "2%" }}
+                style={{ fontSize: "3.5vh", marginTop: "2vh"}}
               >
                 You can create your own classroom or join an existing one
               </p>
@@ -49,8 +49,8 @@ export default function Landing() {
             <div
               className="flex"
               style={{
-                marginLeft: "7%",
-                marginTop: "auto",
+                marginLeft: "10vw",
+                marginTop: "4vh",
                 marginBottom: "auto",
               }}
             >
@@ -59,7 +59,7 @@ export default function Landing() {
           </div>
         </div>
         <div className="flex flex-row">
-          <Session participantInfo={{ name: "new student" }}>
+          <Session participantInfo={{ name: "New Student" }}>
             <JoinClassroomButton
               meetingName={"Test"}
               onSuccess={(id) => setConferenceId(id)}
@@ -70,24 +70,24 @@ export default function Landing() {
         <div
           style={{
             borderRadius: "50%",
-            width: "837px",
-            height: "837px",
+            width: "95vh",
+            height: "95vh",
             background: "#6EE7B7",
             position: "absolute",
-            right: "-18%",
-            top: "62%",
+            right: "-21vw",
+            top: "60vh",
             opacity: "0.7",
           }}
         ></div>
         <div
           style={{
             borderRadius: "50%",
-            width: "900px",
-            height: "900px",
+            width: "100vh",
+            height: "100vh",
             background: "#10B981",
             position: "absolute",
-            right: "6%",
-            top: "80%",
+            right: "6vw",
+            top: "80vh",
             opacity: "0.6",
           }}
         ></div>
