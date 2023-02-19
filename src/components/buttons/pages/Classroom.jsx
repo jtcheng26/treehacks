@@ -93,39 +93,79 @@ export default function Classroom({ conferenceId, setConferenceId }) {
           />
 
           <Conference id={conferenceId}>
-            <div className="mx-4 text-white text-xl font-bold pb-2">
-              Classroom — {meetingName}
-            </div>
-            {isPresentationActive && (
-              <ScreenSharingActionBar
-                statusLabels={{
-                  active: ScreenSharingActionBarTexts.status.active,
-                  error: ScreenSharingActionBarTexts.status.error,
-                  loading: ScreenSharingActionBarTexts.status.loading,
-                  other: ScreenSharingActionBarTexts.status.other,
-                }}
-                buttonLabels={{
-                  tooltip: ScreenSharingActionBarTexts.button.tooltip,
-                  label: ScreenSharingActionBarTexts.button.label,
-                }}
-                guestLabel={ScreenSharingActionBarTexts.guest}
-              />
-            )}
-            {isPresentationActive && (
-              <Space style={{ height: 400 }}>
-                <ScreenSharingPresentationBox
-                  fallbackText={fallbackText}
-                  fallbackButtonText={fallbackButtonText}
-                />
-              </Space>
-            )}
             <SpeechToTextProcess setQuiz={setQuiz} />
-            <div className="h-full flex flex-row mx-4">
-              <ParticipantsGrid
-                localText={localText}
-                testID="ParticipantsGrid"
-                additionalContainerStyle={{ height: 600 }}
-              />
+
+            <div className="h-full flex flex-row mb-b box-content mx-4">
+              <div className="flex flex-col">
+                {/* {isPresentationActive && (
+  
+                )} */}
+                {isPresentationActive && (
+                  <Space
+                    style={{
+                      maxHeight: isLocalUserPresentationOwner ? 400 : 640,
+                      // maxWidth: "85%",
+                    }}
+                  >
+                    <ScreenSharingActionBar
+                      statusLabels={{
+                        active: ScreenSharingActionBarTexts.status.active,
+                        error: ScreenSharingActionBarTexts.status.error,
+                        loading: ScreenSharingActionBarTexts.status.loading,
+                        other: ScreenSharingActionBarTexts.status.other,
+                      }}
+                      buttonLabels={{
+                        tooltip: ScreenSharingActionBarTexts.button.tooltip,
+                        label: ScreenSharingActionBarTexts.button.label,
+                      }}
+                      guestLabel={ScreenSharingActionBarTexts.guest}
+                    />
+                    <div className="h-4" />
+                    <ScreenSharingPresentationBox
+                      fallbackText={fallbackText}
+                      fallbackButtonText={fallbackButtonText}
+                      style={{
+                        maxHeight: isLocalUserPresentationOwner ? 250 : 540,
+                      }}
+                    />
+                    <div className="h-4" />
+                  </Space>
+                )}
+                {(!isPresentationActive || isLocalUserPresentationOwner) && (
+                  <ParticipantsGrid
+                    localText={localText}
+                    testID="ParticipantsGrid"
+                    additionalContainerStyle={{
+                      height:
+                        isPresentationActive && isLocalUserPresentationOwner
+                          ? 300
+                          : isPresentationActive
+                          ? 200
+                          : 640,
+                      // width:
+                      //   isPresentationActive && isLocalUserPresentationOwner
+                      //     ? 700
+                      //     : isPresentationActive
+                      //     ? 0
+                      //     : 640,
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* {!isPresentationActive && ( */}
+
+              {/* </div> */}
+              {/* )} */}
+              {/* {isPresentationActive && (
+                <div className="">
+                  <ParticipantsGrid
+                    localText={localText}
+                    testID="ParticipantsGrid"
+                    additionalContainerStyle={{ height: 100 }}
+                  />
+                </div>
+              )} */}
               <TAPanel visible={panel === "ta"} />
               <QuizPanel
                 clearQuiz={() => setPanel("")}
@@ -138,7 +178,10 @@ export default function Classroom({ conferenceId, setConferenceId }) {
                 user={"Student " + parseInt(Math.random() * 100 + 1)}
               />
             </div>
-            <MenuBar setConferenceId={setConferenceId} />
+            <MenuBar
+              meetingName={meetingName}
+              setConferenceId={setConferenceId}
+            />
           </Conference>
         </Session>
       </div>

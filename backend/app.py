@@ -233,5 +233,5 @@ def left(message):
     emit('status', {'msg': message['name'] + ' has left the room.'}, room=room)
 
 if __name__ == "__main__":
-    socketio.run(app, debug=os.getenv("ENV", "debug") == "debug", port=os.getenv("PORT"))
+    socketio.run(app, debug=os.getenv("ENV", "debug") == "debug", allow_unsafe_werkzeug=True, port=os.getenv("PORT"))
     # app.run(port=os.getenv("PORT"))
