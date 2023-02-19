@@ -71,7 +71,7 @@ export default function Landing() {
             className="text-white font-bold bg-gradient-to-r from-emerald-500 to-indigo-500 py-3 px-12 rounded-full hover:scale-110 hover:cursor-pointer transition-all ease-in-out"
             onClick={(id) => setConferenceId(id)}
             style={{
-                width: "17vw",
+                width: "25vw",
                 height: "7vh",
                 marginLeft: "3vw",
                 marginTop: '2vh',
@@ -80,7 +80,7 @@ export default function Landing() {
                 justifyContent: 'center',
                 display: 'table',
                 verticalAlign: 'middle',
-                fontSize: "3vmin",
+                fontSize: "2.5vmin",
             }}
             >
             new classroom
