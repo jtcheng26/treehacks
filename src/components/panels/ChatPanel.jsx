@@ -7,9 +7,7 @@ import TextBox from "./TextBox";
 import io from "socket.io-client";
 
 export default function ChatPanel({ visible, user = "test" }) {
-  //gay
   const [socketInstance, setSocketInstance] = useState("");
-  const [buttonStatus, setButtonStatus] = useState(false);
   const [messageHistory, setMessageHistory] = useState([]);
   const update = useCallback(
     (data) => {
@@ -29,13 +27,6 @@ export default function ChatPanel({ visible, user = "test" }) {
   );
 
   useEffect(() => {
-    // if (buttonStatus === true) {
-    // const socket = io("127.0.0.1:6969/", {
-    //   transports: ["websocket"],
-    //   cors: {
-    //     origin: "http://localhost:3000/",
-    //   },
-    // });
     const socket = io.connect("http://localhost:6969/chat");
     setSocketInstance(socket);
 
@@ -61,7 +52,6 @@ export default function ChatPanel({ visible, user = "test" }) {
     };
     // }
   }, [update, user]);
-  ///gay
 
   const sampleMessage = {
     sender: "TA",

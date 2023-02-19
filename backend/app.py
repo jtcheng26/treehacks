@@ -19,7 +19,7 @@ socketio = SocketIO(app, cors_allowed_origins=['http://localhost:3000'], manage_
 openai.api_key = os.getenv("OPENAI_API_KEY") # Set in .env
 
 
-cred = credentials.Certificate("../key.json")
+cred = credentials.Certificate("./key.json")
 default_app = initialize_app(cred)
 db = firestore.client()
 summaries = db.collection('summaries')
@@ -233,5 +233,5 @@ def left(message):
     emit('status', {'msg': message['name'] + ' has left the room.'}, room=room)
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True, port=os.getenv("PORT"))
+    socketio.run(app, debug=os.getenv("ENV", "debug") == "debug", port=os.getenv("PORT"))
     # app.run(port=os.getenv("PORT"))
