@@ -27,7 +27,7 @@ answers = db.collection('answers')
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    pass
+    return "", 200
 
 @app.route("/test", methods=("GET", "POST"))
 def test():
