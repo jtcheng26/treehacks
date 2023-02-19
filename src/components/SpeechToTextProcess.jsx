@@ -25,7 +25,7 @@ function getWordsFromString(str) {
   console.log(str.split(" ").filter((s) => s.length > 0).length);
   return str.split(" ").filter((s) => s.length > 0).length;
 }
-
+export let transcriptall = ""
 export default function SpeechToTextProcess({
   setQuiz = () => {},
   setPoll = () => {},
@@ -80,7 +80,7 @@ export default function SpeechToTextProcess({
         if (debug) console.log("COMMAND:", command);
       },
       isFuzzyMatch: true,
-      fuzzyMatchingThreshold: 0.3,
+      fuzzyMatchingThreshold: 0.4,
     },
     {
       command: "tell me if i am going fast",
@@ -150,6 +150,8 @@ export default function SpeechToTextProcess({
       if (finalTranscript.trim().length) {
         const newFull = fullTranscript + " " + finalTranscript;
         setFullTranscript(newFull);
+        // if (newFull.length >= 150 && newFull.length < 155) transcriptall = newFull
+        // transcriptall = newFull
       }
       start();
       if (debug) console.log(fullTranscript);
@@ -157,18 +159,19 @@ export default function SpeechToTextProcess({
       stop();
     }
   }, [debug, isAudio, listening, fullTranscript, finalTranscript]);
-  useMemo(() => {
-    if (fullTranscript.length - prevChunk >= chunkSize) {
-      updateTranscript(fullTranscript.substring(prevChunk));
-      setPrevChunk(fullTranscript.length);
-    }
-  }, [fullTranscript, prevChunk]);
+  // useMemo(() => {
+  //   if (fullTranscript.length - prevChunk >= chunkSize) {
+  //     updateTranscript(fullTranscript.substring(prevChunk));
+  //     setPrevChunk(fullTranscript.length);
+  //   }
+  // }, [fullTranscript, prevChunk]);
   function start() {
     SpeechRecognition.startListening();
   }
   function stop() {
     SpeechRecognition.stopListening();
   }
+  transcriptall = fullTranscript
   //   useMemo(() => {
   //     console.log(transcript)
   //     if (finalTranscript)

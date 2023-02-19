@@ -6,10 +6,7 @@ import Loader from "../../spinners";
 import { PRIMARY_COLOR } from "../../../constants/colors";
 import QuizPanel from "../../panels/QuizPanel";
 
-export default function Notes({
-  transcript = "The Holocaust was a genocide that occurred during World War II in which Nazi Germany, led by Adolf Hitler, systematically murdered around six million Jews, along with other targeted groups such as Romani people, people with disabilities, homosexuals, political dissidents, and others. The Nazi regime employed a range of brutal tactics including forced labor, starvation, mass shootings, and extermination in gas chambers at concentration and extermination camps. The Holocaust has had a profound impact on the world, leading to the recognition of human rights as a universal principle and the establishment of Israel as a Jewish homeland. It serves as a stark reminder of the dangers of hate, prejudice, and unchecked power, and stands as a call to action to work towards a more just and equitable world.",
-  resetPage = () => {},
-}) {
+export default function Notes({ transcript = "", resetPage = () => {} }) {
   const [notes, setNotes] = useState("");
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
