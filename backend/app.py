@@ -19,7 +19,7 @@ socketio = SocketIO(app, cors_allowed_origins=['http://localhost:3000'], manage_
 openai.api_key = os.getenv("OPENAI_API_KEY") # Set in .env
 
 
-cred = credentials.Certificate("../key.json")
+cred = credentials.Certificate("./key.json")
 default_app = initialize_app(cred)
 db = firestore.client()
 summaries = db.collection('summaries')
