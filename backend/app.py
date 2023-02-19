@@ -238,6 +238,12 @@ def quiz(data):
     room = 1
     emit("json", data, room=room)
 
+@socketio.on('poll', namespace='/chat')
+def poll(data):
+    print(data)
+    room = 1
+    emit("poll_data", data, room=room)
+
 if __name__ == "__main__":
     socketio.run(app, debug=os.getenv("ENV", "debug") == "debug", allow_unsafe_werkzeug=True, port=os.getenv("PORT"))
     # app.run(port=os.getenv("PORT"))
