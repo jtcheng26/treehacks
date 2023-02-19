@@ -197,7 +197,7 @@ def append_summary():
             model = "text-davinci-003",
             prompt = generate_summary_prompt(transcript=transcript),
             temperature = 1.3,
-            max_tokens=200
+            max_tokens=1000
         )
     
     summaries.document(datetime.now().strftime("%Y-%m-%d:%H:%M:%S")).set({"summary" :response.choices[0].text})

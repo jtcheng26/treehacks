@@ -7,7 +7,7 @@ export default function EnterMeetingCode() {
             <form label='' className="flex flex-row items-center">
                 <input 
                 className="font-sans"
-                style={{fontSize: '2vh', display: 'inline-flex', position:'absolute', width: '23vw', height: '7vh', marginLeft: '3vw', border: 'double .7vh transparent', backgroundImage: 'linear-gradient(white, white), radial-gradient(circle at top left, #10B981, #6366F1)', backgroundOrigin: 'border-box', backgroundClip: 'content-box, border-box', textAlign: 'left', textIndent: '2vw', borderRadius: '50px', marginTop: '2vh'}}
+                style={{fontSize: '2vh', display: 'inline-flex', justifyContent: "center", width: '23vw', height: '7vh', marginLeft: '3vw', border: 'double .7vh transparent', backgroundImage: 'linear-gradient(white, white), radial-gradient(circle at top left, #10B981, #6366F1)', backgroundOrigin: 'border-box', backgroundClip: 'content-box, border-box', textAlign: 'left', textIndent: '2vw', borderRadius: '50px', marginTop: '2vh'}}
                 placeholder='enter a meeting code'
                 >
                 </input>
