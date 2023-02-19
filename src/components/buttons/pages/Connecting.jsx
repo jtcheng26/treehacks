@@ -98,7 +98,7 @@ export default function Connecting({ conferenceId, setConferenceId }) {
               className="flex flex-col"
               style={{
                 marginLeft: "7vw",
-                height: '50vh',
+                height: '400',
                 width: '50vw',
                 alignSelf: "center",
                 justifyContent: "center",
@@ -106,13 +106,13 @@ export default function Connecting({ conferenceId, setConferenceId }) {
             >
               <Space
                 className="flex"
-                style={{ height: '60vh', width: '50vw', justifyContent: "center" }}
+                style={{ height: '400', width: '50vw', justifyContent: "center" }}
               >
                 <VideoLocalView isMicrophonePermission={true} />
               </Space>
               <div
                 className="flex flex-row space-x-20"
-                style={{ justifyContent: "center" }}
+                style={{ justifyContent: "center" , marginTop: '1.4vh'}}
               >
                 <ToggleAudioButton />
                 <ToggleVideoButton />

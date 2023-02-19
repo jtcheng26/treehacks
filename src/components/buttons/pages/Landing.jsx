@@ -83,12 +83,12 @@ export default function Landing() {
         <div
           style={{
             borderRadius: "50%",
-            width: "250vh",
-            height: "250vh",
+            width: "150vh",
+            height: "150vh",
             background: "#10B981",
             position: "absolute",
-            right: "-42vw",
-            top: "85vh",
+            right: "-22vw",
+            top: "80vh",
             opacity: "0.6",
           }}
         ></div>
