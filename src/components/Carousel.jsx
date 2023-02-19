@@ -4,18 +4,18 @@ import ReactSimplyCarousel from 'react-simply-carousel';
 function ReactSimplyCarouselExample() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const carousel_obj = {
-    width: '450px',
-    height: '450px',
+    width: '45vmin',
+    height: '45vmin',
     alignItems: 'center',
     display: 'flex',
   }
   const img_prop = {
-    width: '300px',
-    height: '300px',
-    margin: '20px 0 20px 0'
+    width: '30vmin',
+    height: '30vmin',
+    margin: '2vmin 0 2vmin 0'
   }
   const desc_prop = {
-    fontSize: '25px',
+    fontSize: '3vmin',
     textAlign: 'center'
   }
 
@@ -67,7 +67,7 @@ function ReactSimplyCarouselExample() {
         <div className='flex-col' style={carousel_obj}>
           <img src="assets/polling.png" style={img_prop}/>
           <p className='font-sans font-bold' style={desc_prop}>
-            Zazu automatically polls students about the current lecture
+            Zazu can poll students about the current lecture
           </p>
         </div>
         <div className='flex-col' style={carousel_obj}>

@@ -36,8 +36,10 @@ export default function JoinClassroomButton({ onSuccess, meetingName }) {
         marginTop: '2vh',
         float: "left",
         textAlign: "center",
-        fontSize: "1.9vh",
-        paddingTop: "2vh",
+        justifyContent: 'center',
+        display: 'table',
+        verticalAlign: 'middle',
+        fontSize: "3vmin",
       }}
     >
       new classroom
