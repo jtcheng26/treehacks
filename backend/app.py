@@ -19,7 +19,7 @@ socketio = SocketIO(app, cors_allowed_origins=['http://localhost:3000'], manage_
 openai.api_key = os.getenv("OPENAI_API_KEY") # Set in .env
 
 
-cred = credentials.Certificate("./key.json")
+cred = credentials.Certificate("../key.json")
 default_app = initialize_app(cred)
 db = firestore.client()
 summaries = db.collection('summaries')
@@ -231,6 +231,12 @@ def left(message):
     room = 1
     leave_room(room)
     emit('status', {'msg': message['name'] + ' has left the room.'}, room=room)
+
+@socketio.on('quiz', namespace="/chat")
+def quiz(data):
+    print(data)
+    room = 1
+    emit("json", data, room=room)
 
 if __name__ == "__main__":
     socketio.run(app, debug=os.getenv("ENV", "debug") == "debug", allow_unsafe_werkzeug=True, port=os.getenv("PORT"))

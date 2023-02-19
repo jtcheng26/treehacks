@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Artyom from "artyom.js";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -6,6 +6,8 @@ import SpeechRecognition, {
 import generateQuiz from "../api/generateQuiz";
 import { PanelContext } from "../contexts/panel";
 import { useAudio, useMicrophone } from "@dolbyio/comms-uikit-react";
+import io from "socket.io-client";
+// import { socket } from './panels/ChatPanel.jsx'
 
 // const artyom = new Artyom();
 
@@ -49,8 +51,13 @@ import { useAudio, useMicrophone } from "@dolbyio/comms-uikit-react";
 // startContinuousArtyom();
 
 let trans = "";
-
+const socket = io.connect("http://localhost:6969/chat")
 const MIN_WORDS_FOR_QUIZ = 50;
+socket.on("connect", (data) => {
+  console.log("connect");
+  socket.emit("joined", {
+    name: "student",
+  });})
 
 function getWordsFromString(str) {
   console.log(str);
@@ -62,17 +69,26 @@ export default function SpeechToTextProcess({
   setQuiz = () => {},
   debug = false,
 }) {
+
+
+    // socket.broadcast.emit("json", (data) => {
+    //   setPanel("quiz");
+    //   setQuiz(data); 
+    // });
+
+
   const { panel, setPanel } = useContext(PanelContext);
+  
   async function generateQuizCommand() {
     if (true) {
       setPanel("quiz");
       setQuiz({});
+      const quiz = await generateQuiz(fullTranscript.substring(fullTranscript.length / 2));
+      socket.emit("quiz", quiz);
       setQuiz(
-        await generateQuiz(fullTranscript.substring(fullTranscript.length / 2))
+          quiz
       );
-    } else {
-      console.log("It's not big enough");
-    }
+    } 
   }
   const commands = [
     {
@@ -105,6 +121,15 @@ export default function SpeechToTextProcess({
   //   console.log(trans);
   //   // }
   // }, [finalTranscript]);
+  const cb =   useCallback((data) => {
+    console.log("in on");
+    setPanel("quiz");
+    setQuiz(data);
+  }, [setPanel, setQuiz])
+  useEffect(() => {
+    socket.on("json",cb);
+    return () => socket.off("json", cb)
+  }, [cb])
   useEffect(() => {
     setTmp(1);
     if (tmp === 1) {
