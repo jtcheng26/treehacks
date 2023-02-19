@@ -9,14 +9,14 @@ import Artyom from "artyom.js";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import generateQuiz from "../api/generateQuiz";
+import generateQuiz, { BASE_URL } from "../api/generateQuiz";
 import { PanelContext } from "../contexts/panel";
 import { useAudio, useMicrophone } from "@dolbyio/comms-uikit-react";
 import io from "socket.io-client";
 import { AVAILABLE_POLLS } from "./panels/PollPanel";
 
 let trans = "";
-export const socket = io.connect("http://localhost:6969/chat");
+export const socket = io.connect(BASE_URL + "/chat");
 const MIN_WORDS_FOR_QUIZ = 50;
 socket.on("connect", (data) => {
   console.log("connect");

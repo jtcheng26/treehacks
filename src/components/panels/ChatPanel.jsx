@@ -5,7 +5,9 @@ import Loader from "../spinners/BeatLoader";
 import PanelTemplate from "./PanelTemplate";
 import TextBox from "./TextBox";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:6969/chat");
+import { BASE_URL } from "../../api/generateQuiz";
+import { socket } from "../SpeechToTextProcess";
+// const socket = io.connect(BASE_URL + "/chat");
 // setSocketInstance(socket);
 
 socket.on("connect", (data) => {

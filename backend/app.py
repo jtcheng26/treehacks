@@ -131,7 +131,7 @@ def get_quiz():
                         ans = int(c)
                         break
             quiz["answer"] = ans
-            print(resList)
+            return resList
             if resList[0].count(".") == 0 and resList[0].count(":") == 0:
                 quiz["question"] = resList[0]
             elif resList[0].count(":") == 1:
