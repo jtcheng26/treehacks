@@ -58,7 +58,7 @@ export default function Landing() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row items-center">
           <Session participantInfo={{ name: "New Student" }}>
             <JoinClassroomButton
               meetingName={"Test"}

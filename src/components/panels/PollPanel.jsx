@@ -1,93 +1,103 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
-import { SECONDARY_COLOR } from "../../constants/colors";
+import { PRIMARY_COLOR, SECONDARY_COLOR } from "../../constants/colors";
+import PollOption from "../buttons/PollOption";
 import QuizOption from "../buttons/QuizOption";
 import Loader from "../spinners/BeatLoader";
 import PanelTemplate from "./PanelTemplate";
 
 const duration = 15000;
-const transitionStyles = {
-  entering: { width: 100 },
-  entered: { width: 100 },
-  exiting: { width: 0 },
-  exited: { width: 0 },
+
+export const AVAILABLE_POLLS = {
+  speed: {
+    question: "How is the speed of the lecture?",
+    choice1: "Too fast!",
+    choice2: "Just right.",
+    choice3: "A bit slow.",
+  },
 };
 
-export default function QuizPanel({
+export default function PollPanel({
   clearQuiz = () => {},
   visible,
   quiz,
   loading,
 }) {
-  const nodeRef = useRef();
   const [selected, setSelected] = useState("");
   const [barWidth, setBarWidth] = useState(0);
+  const [cnts, setCnts] = useState([0, 0, 0]);
+  const pcts = useMemo(() => {
+    const sum = cnts.reduce((a, b) => a + b, 0);
+    // console.log(cnts.map((c) => (sum === 0 ? 0 : c / sum)));
+    return cnts.map((c) => c / sum);
+  }, [cnts]);
+  function onRes(data) {
+    // pass to socket.on
+    const nc = cnts.slice(0);
+    const d = { A: 0, B: 1, C: 2 };
+    nc[d[data.id]]++;
+    setCnts(nc);
+  }
   useEffect(() => {
     setBarWidth(100);
     setSelected("");
+    setCnts([0, 0, 0]);
     const to = setTimeout(() => {
       clearQuiz();
     }, duration);
     return () => clearTimeout(to);
   }, [quiz]);
+  function setSelectedOption(option) {
+    setSelected(option);
+    onRes({ id: option });
+  }
   useEffect(() => {
     // post data depending on whether answer is right
+    // socket.emit
   }, [selected]);
   return (
     <PanelTemplate
       headerText="comprehension check"
       visible={visible}
-      fontColor={SECONDARY_COLOR[500]}
-      borderColor={SECONDARY_COLOR[500]}
+      fontColor={PRIMARY_COLOR[500]}
+      borderColor={PRIMARY_COLOR[500]}
     >
       <div className={"h-full relative"}>
         {loading ? (
           <div className="w-full h-full flex justify-center items-center">
-            <Loader color={SECONDARY_COLOR[500]} />
+            <Loader color={PRIMARY_COLOR[500]} />
           </div>
         ) : (
           <div className="mt-16 space-y-4 relative">
             <h1 className="text-white text-lg">{quiz.question}</h1>
-            <QuizOption
+            <PollOption
               value="A"
               isSelected={selected === "A"}
-              isCorrect={quiz.answer === 1}
               isResults={selected !== ""}
-              //   isResults
-              setSelected={setSelected}
+              setSelected={setSelectedOption}
+              pct={pcts[0]}
             >
               {quiz.choice1}
-            </QuizOption>
-            <QuizOption
+            </PollOption>
+            <PollOption
               value="B"
               isSelected={selected === "B"}
-              // isSelected
-              // isResults
-              isCorrect={quiz.answer === 2}
               isResults={selected !== ""}
-              setSelected={setSelected}
+              setSelected={setSelectedOption}
+              pct={pcts[1]}
             >
               {quiz.choice2}
-            </QuizOption>
-            <QuizOption
+            </PollOption>
+            <PollOption
               value="C"
               isSelected={selected === "C"}
-              isCorrect={quiz.answer === 3}
               isResults={selected !== ""}
-              setSelected={setSelected}
+              setSelected={setSelectedOption}
+              pct={pcts[2]}
             >
               {quiz.choice3}
-            </QuizOption>
-            <QuizOption
-              value="D"
-              isSelected={selected === "D"}
-              isCorrect={quiz.answer === 4}
-              isResults={selected !== ""}
-              setSelected={setSelected}
-            >
-              {quiz.choice4}
-            </QuizOption>
-            <div className="absolute top-96 bg-indigo-500 h-2 w-full rounded-full">
+            </PollOption>
+            <div className="absolute top-96 bg-emerald-600 h-2 w-full rounded-full">
               {/* <Transition
                 nodeRef={nodeRef}
                 in={barWidth === 100}
@@ -96,7 +106,7 @@ export default function QuizPanel({
               >
                 {(state) => ( */}
               <div
-                className="bg-indigo-300 h-2 transition-all duration-1000 flex flex-row-reverse float-right rounded-full"
+                className="bg-emerald-200 h-2 transition-all duration-1000 flex flex-row-reverse float-right rounded-full"
                 style={{
                   animation: duration / 1000 + "s progress linear",
                 }}

@@ -20,6 +20,7 @@ import TAPanel from "../../panels/TAPanel";
 import SpeechToTextProcess from "../../SpeechToTextProcess";
 import QuizPanel from "../../panels/QuizPanel";
 import ChatPanel from "../../panels/ChatPanel";
+import PollPanel, { AVAILABLE_POLLS } from "../../panels/PollPanel";
 
 // screen sharing shit
 const ScreenSharingActionBarTexts = {
@@ -77,6 +78,7 @@ export default function Classroom({ conferenceId, setConferenceId }) {
     (isLocalUserPresentationOwner && isPresentationModeActive);
 
   const [quiz, setQuiz] = useState({});
+  const [poll, setPoll] = useState(AVAILABLE_POLLS["speed"]);
 
   return (
     <PanelContext.Provider value={value}>
@@ -93,7 +95,7 @@ export default function Classroom({ conferenceId, setConferenceId }) {
           />
 
           <Conference id={conferenceId}>
-            <SpeechToTextProcess setQuiz={setQuiz} />
+            <SpeechToTextProcess setQuiz={setQuiz} setPoll={setPoll} />
 
             <div className="h-full flex flex-row mb-b box-content mx-4">
               <div className="flex flex-col">
@@ -196,6 +198,11 @@ export default function Classroom({ conferenceId, setConferenceId }) {
               <ChatPanel
                 visible={panel === "chat"}
                 user={"Student " + parseInt(Math.random() * 100 + 1)}
+              />
+              <PollPanel
+                visible={panel === "poll"}
+                quiz={poll}
+                clearQuiz={() => setPanel("")}
               />
             </div>
             <MenuBar

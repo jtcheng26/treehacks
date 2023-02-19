@@ -8,6 +8,7 @@ import { PanelContext } from "../contexts/panel";
 import { useAudio, useMicrophone } from "@dolbyio/comms-uikit-react";
 import io from "socket.io-client";
 // import { socket } from './panels/ChatPanel.jsx'
+import { AVAILABLE_POLLS } from "./panels/PollPanel";
 
 // const artyom = new Artyom();
 
@@ -67,6 +68,7 @@ function getWordsFromString(str) {
 
 export default function SpeechToTextProcess({
   setQuiz = () => {},
+  setPoll = () => {},
   debug = false,
 }) {
 
@@ -90,6 +92,10 @@ export default function SpeechToTextProcess({
       );
     } 
   }
+  async function generatePollCommand() {
+    setPanel("poll");
+    setPoll({ ...AVAILABLE_POLLS["speed"], key: Math.random() * 100 });
+  }
   const commands = [
     {
       command: "generate quiz",
@@ -100,6 +106,24 @@ export default function SpeechToTextProcess({
       isFuzzyMatch: true,
       fuzzyMatchingThreshold: 0.3,
     },
+    {
+      command: "tell me if i am going fast",
+      callback: async (command) => {
+        generatePollCommand();
+        if (debug) console.log("COMMAND:", command);
+      },
+      isFuzzyMatch: true,
+      fuzzyMatchingThreshold: 0.4,
+    },
+    // {
+    //   command: "create a poll",
+    //   callback: async (command) => {
+    //     generatePollCommand();
+    //     if (debug) console.log("COMMAND:", command);
+    //   },
+    //   isFuzzyMatch: true,
+    //   fuzzyMatchingThreshold: 0.3,
+    // },
   ];
   const {
     transcript,
