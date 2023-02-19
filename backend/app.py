@@ -197,6 +197,7 @@ def answer_question():
 @app.route("/post/summarize", methods=["POST"])
 def append_summary():
     transcript = request.form["transcript"]
+    meeting_id = request.form["meeting_id"]
     response = openai.Completion.create(
             model = "text-davinci-003",
             prompt = generate_summary_prompt(transcript=transcript),
@@ -204,14 +205,23 @@ def append_summary():
             max_tokens=1000
         )
     
-    summaries.document(datetime.now().strftime("%Y-%m-%d:%H:%M:%S")).set({"summary" :response.choices[0].text})
+    print(response.choices[0].text)
+    
+    summaries.document(datetime.now().strftime("%Y-%m-%d")+f"/{meeting_id}/"+datetime.now().strftime("%Y-%m-%d:%H:%M:%s")).set({"summary" :response.choices[0].text})
     return {"result": "True"}
 
 @app.route("/get/summarize", methods=["GET"])
 def get_summary():
+    meeting_id = request.form["meeting_id"]
+    docs = db.collection('summaries/'+datetime.now().strftime("%Y-%m-%d")+f"/{meeting_id}").stream()
     summary = ""
-    for doc in summaries.stream():
+    documen = list(docs)
+    print(documen)
+    for doc in documen:
+        print("hello")
+        print(doc.to_dict())
         summary += doc.to_dict()["summary"]
+        
     return summary
 
 
