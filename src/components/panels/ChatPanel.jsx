@@ -5,7 +5,18 @@ import Loader from "../spinners/BeatLoader";
 import PanelTemplate from "./PanelTemplate";
 import TextBox from "./TextBox";
 import io from "socket.io-client";
+const socket = io.connect("http://localhost:6969/chat");
+// setSocketInstance(socket);
 
+socket.on("connect", (data) => {
+  console.log(data);
+  socket.emit("joined", {
+    name: "joe",
+  });
+});
+socket.on("disconnect", (data) => {
+  console.log(data);
+});
 export default function ChatPanel({ visible, user = "test" }) {
   const [socketInstance, setSocketInstance] = useState("");
   const [messageHistory, setMessageHistory] = useState([]);
@@ -27,31 +38,14 @@ export default function ChatPanel({ visible, user = "test" }) {
   );
 
   useEffect(() => {
-    const socket = io.connect("http://localhost:6969/chat");
     setSocketInstance(socket);
-
-    socket.on("connect", (data) => {
-      console.log(data);
-      socket.emit("joined", {
-        name: user,
-      });
-    });
-
     setLoading(false);
     socket.on("message", update);
-    // socket.on("text", update);
 
-    socket.on("disconnect", (data) => {
-      console.log(data);
-    });
-
-    // socket.on("message", update);
-
-    return function cleanup() {
-      socket.disconnect();
+    return () => {
+      socket.off("message", update);
     };
-    // }
-  }, [update, user]);
+  }, [update]);
 
   const sampleMessage = {
     sender: "TA",

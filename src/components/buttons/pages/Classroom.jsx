@@ -131,16 +131,16 @@ export default function Classroom({ conferenceId, setConferenceId }) {
                     <div className="h-4" />
                   </Space>
                 )}
-                {(!isPresentationActive || isLocalUserPresentationOwner) && (
+                {isPresentationActive && isLocalUserPresentationOwner && (
                   <ParticipantsGrid
                     localText={localText}
                     testID="ParticipantsGrid"
                     additionalContainerStyle={{
                       height:
                         isPresentationActive && isLocalUserPresentationOwner
-                          ? 300
+                          ? 250
                           : isPresentationActive
-                          ? 200
+                          ? 120
                           : 640,
                       // width:
                       //   isPresentationActive && isLocalUserPresentationOwner
@@ -152,6 +152,26 @@ export default function Classroom({ conferenceId, setConferenceId }) {
                   />
                 )}
               </div>
+              {!isPresentationActive && (
+                <ParticipantsGrid
+                  localText={localText}
+                  testID="ParticipantsGrid"
+                  additionalContainerStyle={{
+                    height:
+                      isPresentationActive && isLocalUserPresentationOwner
+                        ? 300
+                        : isPresentationActive
+                        ? 120
+                        : 640,
+                    // width:
+                    //   isPresentationActive && isLocalUserPresentationOwner
+                    //     ? 700
+                    //     : isPresentationActive
+                    //     ? 0
+                    //     : 640,
+                  }}
+                />
+              )}
 
               {/* {!isPresentationActive && ( */}
 
