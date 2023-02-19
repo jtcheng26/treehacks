@@ -53,6 +53,7 @@ const participantInfo = {
 // 4. Create `Content` component. It will be main component of our app. Wrap it with previously created `AppBase`. We'll also add a fixed height to the content as we'll need this later in the guide.
 
 export default function Classroom({ conferenceId, setConferenceId }) {
+  const [generating, setGenerating] = useState(false);
   // 6. Define styles for the containers
   // 5. Define styles for the containers
   const contentContainerStyle = {
@@ -82,7 +83,6 @@ export default function Classroom({ conferenceId, setConferenceId }) {
 
   return (
     <PanelContext.Provider value={value}>
-      <SpeechToTextProcess />
       <div className="App" style={contentContainerStyle}>
         <InfoBar
           text="Voxeet Web SDK has been initialized."
@@ -95,7 +95,12 @@ export default function Classroom({ conferenceId, setConferenceId }) {
           />
 
           <Conference id={conferenceId}>
-            <SpeechToTextProcess setQuiz={setQuiz} setPoll={setPoll} />
+            <SpeechToTextProcess
+              setQuiz={setQuiz}
+              setPoll={setPoll}
+              generating={generating}
+              setGenerating={setGenerating}
+            />
 
             <div className="h-full flex flex-row mb-b box-content mx-4">
               <div className="flex flex-col">
@@ -188,21 +193,27 @@ export default function Classroom({ conferenceId, setConferenceId }) {
                   />
                 </div>
               )} */}
-              <TAPanel visible={panel === "ta"} />
+              <TAPanel visible={!generating && panel === "ta"} />
               <QuizPanel
-                clearQuiz={() => setPanel("")}
+                clearQuiz={() => {
+                  setPanel("");
+                  setGenerating(false);
+                }}
                 visible={panel === "quiz"}
                 quiz={quiz}
                 loading={Object.keys(quiz).length === 0}
               />
               <ChatPanel
-                visible={panel === "chat"}
+                visible={!generating && panel === "chat"}
                 user={"Student " + parseInt(Math.random() * 100 + 1)}
               />
               <PollPanel
                 visible={panel === "poll"}
                 quiz={poll}
-                clearQuiz={() => setPanel("")}
+                clearQuiz={() => {
+                  setPanel("");
+                  setGenerating(false);
+                }}
               />
             </div>
             <MenuBar

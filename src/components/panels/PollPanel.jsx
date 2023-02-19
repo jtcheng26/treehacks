@@ -1,8 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Transition } from "react-transition-group";
 import { PRIMARY_COLOR, SECONDARY_COLOR } from "../../constants/colors";
 import PollOption from "../buttons/PollOption";
 import QuizOption from "../buttons/QuizOption";
+import { socket } from "../SpeechToTextProcess";
 import Loader from "../spinners/BeatLoader";
 import PanelTemplate from "./PanelTemplate";
 
@@ -31,13 +38,19 @@ export default function PollPanel({
     // console.log(cnts.map((c) => (sum === 0 ? 0 : c / sum)));
     return cnts.map((c) => c / sum);
   }, [cnts]);
-  function onRes(data) {
-    // pass to socket.on
-    const nc = cnts.slice(0);
-    const d = { A: 0, B: 1, C: 2 };
-    nc[d[data.id]]++;
-    setCnts(nc);
-  }
+  const cb = useCallback(
+    (data) => {
+      // pass to socket.on
+      const nc = cnts.slice(0);
+      const d = { A: 0, B: 1, C: 2 };
+      nc[d[data.id]]++;
+      setCnts(nc);
+    },
+    [cnts, setCnts]
+  );
+  useEffect(() => {
+    socket.on("poll_answer", cb);
+  }, [cb]);
   useEffect(() => {
     setBarWidth(100);
     setSelected("");
@@ -49,11 +62,12 @@ export default function PollPanel({
   }, [quiz]);
   function setSelectedOption(option) {
     setSelected(option);
-    onRes({ id: option });
+    cb({ id: option });
   }
   useEffect(() => {
     // post data depending on whether answer is right
     // socket.emit
+    if (selected !== "") socket.emit("poll_answer", { id: selected });
   }, [selected]);
   return (
     <PanelTemplate
