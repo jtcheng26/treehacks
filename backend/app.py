@@ -131,6 +131,7 @@ def get_quiz():
                         ans = int(c)
                         break
             quiz["answer"] = ans
+            return resList
             if resList[0].count(".") == 0 and resList[0].count(":") == 0:
                 quiz["question"] = resList[0]
             elif resList[0].count(":") == 1:
@@ -234,13 +235,13 @@ def left(message):
 
 @socketio.on('quiz', namespace="/chat")
 def quiz(data):
-    print(data)
+    # print(data)
     room = 1
     emit("json", data, room=room)
 
 @socketio.on('poll', namespace='/chat')
 def poll(data):
-    print(data)
+    # print(data)
     room = 1
     emit("poll_data", data, room=room)
 

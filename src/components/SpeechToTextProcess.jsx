@@ -51,9 +51,7 @@ import { AVAILABLE_POLLS } from "./panels/PollPanel";
 
 // startContinuousArtyom();
 
-let trans = "";
 const socket = io.connect("http://localhost:6969/chat")
-const MIN_WORDS_FOR_QUIZ = 50;
 socket.on("connect", (data) => {
   console.log("connect");
   socket.emit("joined", {
