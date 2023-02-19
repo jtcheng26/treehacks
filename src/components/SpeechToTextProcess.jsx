@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import Artyom from "artyom.js";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -45,15 +39,18 @@ export default function SpeechToTextProcess({
   // });
 
   const { panel, setPanel } = useContext(PanelContext);
+  const [fullTranscript, setFullTranscript] = useState("");
+  const [prevChunk, setPrevChunk] = useState(0);
+  const chunkSize = 50;
   // const [generating, setGenerating] = useState(false);
 
-  async function generateQuizCommand() {
+  const generateQuizCommand = useCallback(async () => {
     if (true) {
       // socket.emit("quiz", {});
       if (!generating) {
         setGenerating(true);
         setPanel("quiz");
-        setQuiz({});
+        // setQuiz({});
         console.log("GENERATING FROM");
         console.log(fullTranscript.substring(fullTranscript.length / 2));
         const quiz = await generateQuiz(
@@ -63,15 +60,18 @@ export default function SpeechToTextProcess({
         setQuiz(quiz);
       }
     }
-  }
-  async function generatePollCommand() {
-    if (!generating) {
-      setGenerating(true);
-      setPanel("poll");
-      socket.emit("poll", AVAILABLE_POLLS["speed"]);
-      setPoll({ ...AVAILABLE_POLLS["speed"], key: Math.random() * 100 });
-    }
-  }
+  }, [fullTranscript, generating, setGenerating, setPanel, setQuiz]);
+  const generatePollCommand = useCallback(
+    async function () {
+      if (!generating) {
+        setGenerating(true);
+        setPanel("poll");
+        socket.emit("poll", AVAILABLE_POLLS["speed"]);
+        setPoll({ ...AVAILABLE_POLLS["speed"], key: Math.random() * 100 });
+      }
+    },
+    [generating, setGenerating, setPanel, setPoll]
+  );
   const commands = [
     {
       command: "generate quiz",
@@ -109,9 +109,6 @@ export default function SpeechToTextProcess({
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition({ commands });
   const [tmp, setTmp] = useState(0);
-  const [fullTranscript, setFullTranscript] = useState("");
-  const [prevChunk, setPrevChunk] = useState(0);
-  const chunkSize = 50;
 
   const { isAudio } = useAudio();
   const cb = useCallback(
@@ -122,7 +119,7 @@ export default function SpeechToTextProcess({
     },
     [setPanel, setQuiz]
   );
-  useEffect(() => {
+  useMemo(() => {
     console.log("QUIZ CB");
     socket.on("json", cb);
     return () => socket.off("json", cb);
@@ -134,12 +131,12 @@ export default function SpeechToTextProcess({
     },
     [setPanel, setPoll]
   );
-  useEffect(() => {
+  useMemo(() => {
     console.log("POLL CB");
     socket.on("poll_data", cb2);
     return () => socket.off("poll_data", cb2);
   }, [cb2]);
-  useEffect(() => {
+  useMemo(() => {
     console.log("START CB");
     if (tmp === 1) {
       start();
@@ -147,7 +144,7 @@ export default function SpeechToTextProcess({
     } else setTmp(1);
     // return () => SpeechRecognition.stopListening();
   }, [tmp, debug]);
-  useEffect(() => {
+  useMemo(() => {
     if (!listening && isAudio) {
       if (finalTranscript.trim().length) {
         const newFull = fullTranscript + " " + finalTranscript;
@@ -159,7 +156,7 @@ export default function SpeechToTextProcess({
       stop();
     }
   }, [debug, isAudio, listening, fullTranscript, finalTranscript]);
-  useEffect(() => {
+  useMemo(() => {
     if (fullTranscript.length - prevChunk >= chunkSize) {
       updateTranscript(fullTranscript.substring(prevChunk));
       setPrevChunk(fullTranscript.length);

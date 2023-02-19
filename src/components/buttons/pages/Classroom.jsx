@@ -184,6 +184,7 @@ export default function Classroom({ conferenceId, setConferenceId }) {
             <TAPanel visible={!generating && panel === "ta"} />
             <QuizPanel
               clearQuiz={() => {
+                console.log("CLEARING QUIZ");
                 setPanel("");
                 setGenerating(false);
               }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
 import { SECONDARY_COLOR } from "../../constants/colors";
 import QuizOption from "../buttons/QuizOption";
@@ -18,31 +18,46 @@ export default function QuizPanel({
   visible,
   quiz,
   loading,
-  infinite = false,
+  infinite = true,
 }) {
   const nodeRef = useRef();
+  // const [q, setQ] = useState(quiz);
+  const [off, setOff] = useState(quiz);
   const [selected, setSelected] = useState("");
   const [barWidth, setBarWidth] = useState(0);
-  useEffect(() => {
+  const [to, setTO] = useState();
+  useMemo(() => {
     setBarWidth(100);
-    setSelected("");
-    if (!infinite) {
-      const to = setTimeout(clearQuiz, duration);
+    // setSelected("");
+    if (!infinite && !loading && !to) {
+      // clearTimeout(to);
+      console.log("STARTING");
+      // setTO(setTimeout(clearQuiz, duration));
       return () => clearTimeout(to);
     }
-  }, [quiz, infinite, clearQuiz]);
+  }, [infinite, loading, to]);
+  useMemo(() => {
+    if (!loading && visible) {
+      setSelected("");
+      if (quiz !== off) setOff(false);
+    } else if (!visible) {
+      // setOff(true)
+      setOff(quiz);
+    }
+  }, [loading, visible, quiz, off]);
   const onSelect = (res) => {
     if (!infinite) setSelected(res);
     else {
       setSelected(res);
       setTimeout(() => {
+        setOff(quiz);
         clearQuiz();
       }, 2500);
     }
   };
-  useEffect(() => {
-    // post data depending on whether answer is right
-  }, [selected]);
+  // useEffect(() => {
+  //   // post data depending on whether answer is right
+  // }, [selected]);
   return (
     <PanelTemplate
       headerText="comprehension check"
@@ -51,7 +66,7 @@ export default function QuizPanel({
       borderColor={SECONDARY_COLOR[500]}
     >
       <div className={"h-full relative"}>
-        {loading ? (
+        {loading || off ? (
           <div className="w-full h-full flex justify-center items-center">
             <Loader color={SECONDARY_COLOR[500]} />
           </div>
