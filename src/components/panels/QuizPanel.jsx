@@ -19,6 +19,7 @@ export default function QuizPanel({
   quiz,
   loading,
   infinite = true,
+  temp=false
 }) {
   const nodeRef = useRef();
   // const [q, setQ] = useState(quiz);
@@ -66,7 +67,7 @@ export default function QuizPanel({
       borderColor={SECONDARY_COLOR[500]}
     >
       <div className={"h-full relative"}>
-        {loading || off ? (
+        {loading || (off && !temp) ? (
           <div className="w-full h-full flex justify-center items-center">
             <Loader color={SECONDARY_COLOR[500]} />
           </div>

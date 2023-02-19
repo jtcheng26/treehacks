@@ -44,7 +44,7 @@ const fallbackButtonText = "try again";
 
 // const participantInfo = { name: "John Doe" };
 
-const meetingName = "Math 61 Lecture 1";
+const meetingName = "Indigenous Studies Lecture 1";
 
 const localText = "you"; // The local participant's name.
 // 3. Create wrapper with `CommsProvider` and `ThemeProvider` for entire app. Pass the `token` and `refreshToken` properties.

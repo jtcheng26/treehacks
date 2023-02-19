@@ -33,7 +33,7 @@ export default function Notes({
     <div className="bg-slate-900 min-h-screen font-sans text-white p-10">
       <div className="flex flex-row space-between items-center w-full">
         <div className="mx-4 text-white text-xl font-bold flex flex-col flex-grow">
-          <span>Finished Lecture — Math 61</span>
+          <span>Finished Lecture — Indigenous Studies</span>
           <span className="text-sm font-normal text-slate-500">
             {new Date().toDateString()}
           </span>
@@ -87,6 +87,7 @@ export default function Notes({
               visible={i === 0}
               quiz={q}
               loading={false}
+              temp
               clearQuiz={() =>
                 setQuestions(
                   questions.length === 1 ? questions : questions.slice(1)
