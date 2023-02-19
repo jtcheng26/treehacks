@@ -19,6 +19,7 @@ export default function PanelTemplate({
   fontColor = PRIMARY_COLOR[500],
   children,
   visible = false,
+  ta = true,
 }) {
   const nodeRef = useRef(null);
   const [hide, setHide] = useState(false);
@@ -42,7 +43,7 @@ export default function PanelTemplate({
         >
           {!hide && (
             <>
-              <ZazuHeader text={headerText} />
+              <ZazuHeader text={headerText} icon={ta} />
               <div className="flex flex-col h-full">{children}</div>
             </>
           )}

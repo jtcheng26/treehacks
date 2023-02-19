@@ -74,7 +74,7 @@ export default function ChatPanel({ visible, user = "test" }) {
   //   if (socketInstance)
   // }, [socketInstance, update]);
   return (
-    <PanelTemplate visible={visible}>
+    <PanelTemplate visible={visible} ta={false} headerText="Room Chat">
       <div className="relative h-full z-10">
         {messageHistory.length ? (
           <div className="w-full h-full overflow-hidden">
