@@ -244,6 +244,12 @@ def poll(data):
     room = 1
     emit("poll_data", data, room=room)
 
+@socketio.on('quiz_answer', namespace='/chat')
+def correct_answer(data):
+    room = 1
+    emit("quiz_answer", data, room=room)
+
+
 if __name__ == "__main__":
     socketio.run(app, debug=os.getenv("ENV", "debug") == "debug", allow_unsafe_werkzeug=True, port=os.getenv("PORT"))
     # app.run(port=os.getenv("PORT"))
