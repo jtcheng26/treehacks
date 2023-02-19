@@ -30,7 +30,7 @@ export default function JoinClassroomButton({ onSuccess, meetingName }) {
       className="text-white font-bold bg-gradient-to-r from-emerald-500 to-indigo-500 py-3 px-12 rounded-full hover:scale-110 hover:cursor-pointer transition-all ease-in-out"
       onClick={startClassroom}
       style={{
-        width: "14vw",
+        width: "17vw",
         height: "7vh",
         marginLeft: "3vw",
         marginTop: '2vh',

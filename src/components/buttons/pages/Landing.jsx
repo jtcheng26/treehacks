@@ -36,7 +36,7 @@ export default function Landing() {
                 marginBottom: "auto",
               }}
             >
-              <h1 className="font-bold font-sans" style={{ fontSize: "6.7vh" }}>
+              <h1 className="font-bold font-sans" style={{ fontSize: "6.7vh", width: "50vw", alignContent: "center"}}>
                 Meet Zazu, your very own personal AI Teaching Assistant!
               </h1>
               <p
@@ -63,6 +63,7 @@ export default function Landing() {
             <JoinClassroomButton
               meetingName={"Test"}
               onSuccess={(id) => setConferenceId(id)}
+              className="content-evenly"
             />
             <EnterMeetingCode />
           </Session>
