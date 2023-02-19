@@ -1,6 +1,7 @@
 import { useConference } from "@dolbyio/comms-uikit-react";
 import React from "react";
 import EnterMeetingCode from "./EnterMeetingCode";
+import { PRIMARY_COLOR } from "../../constants/colors";
 
 const joinOptions = {
   constraints: {
@@ -26,23 +27,22 @@ export default function JoinClassroomButton({ onSuccess, meetingName }) {
   }
 
   return (
-    <div
-      className="text-white font-bold bg-gradient-to-r from-emerald-500 to-indigo-500 py-3 px-12 rounded-full hover:scale-110 hover:cursor-pointer transition-all ease-in-out"
-      onClick={startClassroom}
-      style={{
-        width: "17vw",
-        height: "7vh",
-        marginLeft: "3vw",
-        marginTop: '2vh',
-        float: "left",
-        textAlign: "center",
-        justifyContent: 'center',
-        display: 'table',
-        verticalAlign: 'middle',
-        fontSize: "3vmin",
-      }}
-    >
-      new classroom
+    <div>
+      <button
+          type="submit"
+          className="font-sans font-bold hover:scale-110 hover:cursor-pointer transition-all ease-in-out"
+          style={{
+              fontSize: '2vh',
+              background: PRIMARY_COLOR[500],
+              borderRadius: 10,
+              width: '10vmin',
+              height: '50px',
+              color: "#1e293b",
+          }}
+          onClick={startClassroom}
+      >
+          Join
+      </button>
     </div>
   );
 }

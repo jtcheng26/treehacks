@@ -59,14 +59,33 @@ export default function Landing() {
           </div>
         </div>
         <div className="flex flex-row items-center">
-          <Session participantInfo={{ name: "New Student" }}>
-            <JoinClassroomButton
+          {/* <Session participantInfo={{ name: "New Student" }}> */}
+            {/* <JoinClassroomButton
               meetingName={"Test"}
               onSuccess={(id) => setConferenceId(id)}
               className="content-evenly"
             />
-            <EnterMeetingCode />
-          </Session>
+            <EnterMeetingCode /> */}
+          {/* </Session> */}
+          <div
+            className="text-white font-bold bg-gradient-to-r from-emerald-500 to-indigo-500 py-3 px-12 rounded-full hover:scale-110 hover:cursor-pointer transition-all ease-in-out"
+            onClick={(id) => setConferenceId(id)}
+            style={{
+                width: "17vw",
+                height: "7vh",
+                marginLeft: "3vw",
+                marginTop: '2vh',
+                float: "left",
+                textAlign: "center",
+                justifyContent: 'center',
+                display: 'table',
+                verticalAlign: 'middle',
+                fontSize: "3vmin",
+            }}
+            >
+            new classroom
+            </div>
+            <EnterMeetingCode/>
         </div>
         <div
           style={{
