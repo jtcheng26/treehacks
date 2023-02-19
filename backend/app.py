@@ -210,7 +210,7 @@ def append_summary():
     summaries.document(datetime.now().strftime("%Y-%m-%d")+f"/{meeting_id}/"+datetime.now().strftime("%Y-%m-%d:%H:%M:%s")).set({"summary" :response.choices[0].text})
     return {"result": "True"}
 
-@app.route("/get/summarize", methods=["GET"])
+@app.route("/summarize", methods=["POST"])
 def get_summary():
     meeting_id = request.form["meeting_id"]
     docs = db.collection('summaries/'+datetime.now().strftime("%Y-%m-%d")+f"/{meeting_id}").stream()
