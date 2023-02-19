@@ -130,34 +130,37 @@ def get_quiz():
                     if c.isdigit() and int(c) != 0:
                         ans = int(c)
                         break
+            print(resList)
             quiz["answer"] = ans
-            return resList
-            if resList[0].count(".") == 0 and resList[0].count(":") == 0:
-                quiz["question"] = resList[0]
-            elif resList[0].count(":") == 1:
-                quiz["question"] = re.split("\:", resList[0])[1].strip()
-            elif (resList[0].count(".") == 1):
-                quiz["question"] = re.split("\. ", resList[0])[1].strip()
-            else:
-                quiz["question"] = re.split("\..*\. ", resList[0][:-1])[1].strip() if resList[0][-1] == '.' else re.split("\..*\.", resList[0])[1].strip()
-            # quiz["question"] = resList[0].strip()
-            if (resList[1].count(".") <= 2):
-                quiz["choice1"] = re.split("\.", resList[1])[1].strip()
-            else:
-                quiz["choice1"] = re.split("\..*\.", resList[1][:-1])[1].strip() if resList[1][-1] == '.' else re.split("\..*\.", resList[1])[1].strip()
-            if (resList[2].count(".") <= 2):
-                quiz["choice2"] = re.split("\.", resList[2][:-1])[1].strip() if resList[2][-1] == '.' else re.split("\.", resList[2])[1].strip()
-            else:
-                quiz["choice2"] = re.split("\..*\.", resList[2][:-1])[1].strip() if resList[2][-1] == '.' else re.split("\..*\.", resList[2])[1].strip()
-            if (resList[3].count(".") <= 2):
-                quiz["choice3"] = re.split("\.", resList[3][:-1])[1].strip() if resList[3][-1] == '.' else re.split("\.", resList[3])[1].strip()
-            else:
-                quiz["choice3"] = re.split("\..*\.", resList[3][:-1])[1].strip() if resList[3][-1] == '.' else re.split("\..*\.", resList[3])[1].strip()
-            if (resList[4].count(".") <= 2):
-                quiz["choice4"] = re.split("\.", resList[4][:-1])[1].strip() if resList[4][-1] == '.' else re.split("\.", resList[4])[1].strip()
-            else:
-                quiz["choice4"] = re.split("\..*\.", resList[4][:-1])[1].strip() if resList[4][-1] == '.' else re.split("\..*\.", resList[4])[1].strip()
-            if quiz["choice1"] != "" and quiz["choice2"] != "" and quiz["choice3"] != "" and quiz["choice4"] != "" and quiz["question"] != "":
+            try:
+                if resList[0].count(".") == 0 and resList[0].count(":") == 0:
+                    quiz["question"] = resList[0]
+                elif resList[0].count(":") == 1:
+                    quiz["question"] = re.split("\:", resList[0])[1].strip()
+                elif (resList[0].count(".") == 1):
+                    quiz["question"] = re.split("\.", resList[0])[1].strip()
+                else:
+                    quiz["question"] = re.split("\..*\.", resList[0][:-1])[1].strip() if resList[0][-1] == '.' else re.split("\..*\.", resList[0])[1].strip()
+                # quiz["question"] = resList[0].strip()
+                if (resList[1].count(".") <= 2):
+                    quiz["choice1"] = re.split("\.", resList[1])[1].strip()
+                else:
+                    quiz["choice1"] = re.split("\..*\.", resList[1][:-1])[1].strip() if resList[1][-1] == '.' else re.split("\..*\.", resList[1])[1].strip()
+                if (resList[2].count(".") <= 2):
+                    quiz["choice2"] = re.split("\.", resList[2][:-1])[1].strip() if resList[2][-1] == '.' else re.split("\.", resList[2])[1].strip()
+                else:
+                    quiz["choice2"] = re.split("\..*\.", resList[2][:-1])[1].strip() if resList[2][-1] == '.' else re.split("\..*\.", resList[2])[1].strip()
+                if (resList[3].count(".") <= 2):
+                    quiz["choice3"] = re.split("\.", resList[3][:-1])[1].strip() if resList[3][-1] == '.' else re.split("\.", resList[3])[1].strip()
+                else:
+                    quiz["choice3"] = re.split("\..*\.", resList[3][:-1])[1].strip() if resList[3][-1] == '.' else re.split("\..*\.", resList[3])[1].strip()
+                if (resList[4].count(".") <= 2):
+                    quiz["choice4"] = re.split("\.", resList[4][:-1])[1].strip() if resList[4][-1] == '.' else re.split("\.", resList[4])[1].strip()
+                else:
+                    quiz["choice4"] = re.split("\..*\.", resList[4][:-1])[1].strip() if resList[4][-1] == '.' else re.split("\..*\.", resList[4])[1].strip()
+            except:
+                continue
+            if quiz["choice1"] != "" and quiz["choice2"] != "" and quiz["choice3"] != "" and quiz["choice4"] != "" and len(quiz["question"].split(" ")) >= 3:
                 break
         return jsonify(quiz)
     result = request.args.get("result")
