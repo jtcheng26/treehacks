@@ -18,6 +18,7 @@ export default function QuizPanel({
   visible,
   quiz,
   loading,
+  infinite = false,
 }) {
   const nodeRef = useRef();
   const [selected, setSelected] = useState("");
@@ -25,11 +26,20 @@ export default function QuizPanel({
   useEffect(() => {
     setBarWidth(100);
     setSelected("");
-    const to = setTimeout(() => {
-      clearQuiz();
-    }, duration);
-    return () => clearTimeout(to);
-  }, [quiz]);
+    if (!infinite) {
+      const to = setTimeout(clearQuiz, duration);
+      return () => clearTimeout(to);
+    }
+  }, [quiz, infinite, clearQuiz]);
+  const onSelect = (res) => {
+    if (!infinite) setSelected(res);
+    else {
+      setSelected(res);
+      setTimeout(() => {
+        clearQuiz();
+      }, 2500);
+    }
+  };
   useEffect(() => {
     // post data depending on whether answer is right
   }, [selected]);
@@ -54,7 +64,7 @@ export default function QuizPanel({
               isCorrect={quiz.answer === 1}
               isResults={selected !== ""}
               //   isResults
-              setSelected={setSelected}
+              setSelected={onSelect}
             >
               {quiz.choice1}
             </QuizOption>
@@ -65,7 +75,7 @@ export default function QuizPanel({
               // isResults
               isCorrect={quiz.answer === 2}
               isResults={selected !== ""}
-              setSelected={setSelected}
+              setSelected={onSelect}
             >
               {quiz.choice2}
             </QuizOption>
@@ -74,7 +84,7 @@ export default function QuizPanel({
               isSelected={selected === "C"}
               isCorrect={quiz.answer === 3}
               isResults={selected !== ""}
-              setSelected={setSelected}
+              setSelected={onSelect}
             >
               {quiz.choice3}
             </QuizOption>
@@ -83,27 +93,33 @@ export default function QuizPanel({
               isSelected={selected === "D"}
               isCorrect={quiz.answer === 4}
               isResults={selected !== ""}
-              setSelected={setSelected}
+              setSelected={onSelect}
             >
               {quiz.choice4}
             </QuizOption>
-            <div className="absolute top-96 bg-indigo-500 h-2 w-full rounded-full">
-              {/* <Transition
+            {!infinite ? (
+              <div className="absolute top-96 bg-indigo-500 h-2 w-full rounded-full">
+                {/* <Transition
                 nodeRef={nodeRef}
                 in={barWidth === 100}
                 timeout={duration}
                 appear
               >
                 {(state) => ( */}
-              <div
-                className="bg-indigo-300 h-2 transition-all duration-1000 flex flex-row-reverse float-right rounded-full"
-                style={{
-                  animation: duration / 1000 + "s progress linear",
-                }}
-              />
-              {/* )}
+
+                <div
+                  className="bg-indigo-300 h-2 transition-all duration-1000 flex flex-row-reverse float-right rounded-full"
+                  style={{
+                    animation: duration / 1000 + "s progress linear",
+                  }}
+                />
+
+                {/* )}
               </Transition> */}
-            </div>
+              </div>
+            ) : (
+              <div className="h-2" />
+            )}
           </div>
         )}
       </div>

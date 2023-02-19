@@ -14,6 +14,7 @@ import { PanelContext } from "../contexts/panel";
 import { useAudio, useMicrophone } from "@dolbyio/comms-uikit-react";
 import io from "socket.io-client";
 import { AVAILABLE_POLLS } from "./panels/PollPanel";
+import updateTranscript from "../api/updateTranscript";
 
 let trans = "";
 export const socket = io.connect(BASE_URL + "/chat");
@@ -109,6 +110,9 @@ export default function SpeechToTextProcess({
   } = useSpeechRecognition({ commands });
   const [tmp, setTmp] = useState(0);
   const [fullTranscript, setFullTranscript] = useState("");
+  const [prevChunk, setPrevChunk] = useState(0);
+  const chunkSize = 50;
+
   const { isAudio } = useAudio();
   const cb = useCallback(
     (data) => {
@@ -144,16 +148,23 @@ export default function SpeechToTextProcess({
     // return () => SpeechRecognition.stopListening();
   }, [tmp, debug]);
   useEffect(() => {
-    console.log("HERE");
     if (!listening && isAudio) {
-      if (finalTranscript.trim().length)
-        setFullTranscript(fullTranscript + " " + finalTranscript);
+      if (finalTranscript.trim().length) {
+        const newFull = fullTranscript + " " + finalTranscript;
+        setFullTranscript(newFull);
+      }
       start();
       if (debug) console.log(fullTranscript);
     } else if (listening && !isAudio) {
       stop();
     }
   }, [debug, isAudio, listening, fullTranscript, finalTranscript]);
+  useEffect(() => {
+    if (fullTranscript.length - prevChunk >= chunkSize) {
+      updateTranscript(fullTranscript.substring(prevChunk));
+      setPrevChunk(fullTranscript.length);
+    }
+  }, [fullTranscript, prevChunk]);
   function start() {
     SpeechRecognition.startListening();
   }
