@@ -18,7 +18,7 @@ load_dotenv()
 app = Flask(__name__)
 Session(app)
 CORS(app, support_credentials=True)
-socketio = SocketIO(app, cors_allowed_origins=['http://localhost:3000'], manage_session=False)
+socketio = SocketIO(app, cors_allowed_origins=['http://localhost:3000', 'https://meetzazu.vercel.app'], manage_session=False)
 openai.api_key = os.getenv("OPENAI_API_KEY") # Set in .env
 
 
