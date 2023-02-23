@@ -74,7 +74,7 @@ export default function SpeechToTextProcess({
   );
   const commands = [
     {
-      command: "generate quiz",
+      command: "zazu generate quiz",
       callback: async (command) => {
         generateQuizCommand();
         if (debug) console.log("COMMAND:", command);

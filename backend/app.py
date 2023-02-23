@@ -10,6 +10,9 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_session import Session
 from utils import *
 
+import requests
+import base64
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -28,6 +31,35 @@ answers = db.collection('answers')
 @app.route("/", methods=["GET", "POST"])
 def index():
     return "", 200
+
+@app.route("/token", methods=["GET"])
+def token():
+    CONSUMER_KEY = os.environ['DOLBY_APP_KEY']
+    CONSUMER_SECRET = os.environ['DOLBY_APP_SECRET']
+
+    auth_str = f"{CONSUMER_KEY}:{CONSUMER_SECRET}"
+    auth_bytes = auth_str.encode("ascii")
+    auth_b64_bytes = base64.b64encode(auth_bytes)
+    auth_header = f"Basic {auth_b64_bytes.decode('ascii')}"
+
+    token_url = "https://session.voxeet.com/v1/oauth2/token"
+    token_params = {
+        "grant_type": "client_credentials",
+    }
+    token_headers = {
+        "Authorization": auth_header,
+    }
+
+    response = requests.post(token_url, headers=token_headers, data=token_params)
+    jwt = response.json()
+
+    print(f"returned access_token is {jwt['access_token']}")
+
+    # Return the access_token to the application
+    return jwt["access_token"]
+
+
+
 
 @app.route("/test", methods=("GET", "POST"))
 def test():

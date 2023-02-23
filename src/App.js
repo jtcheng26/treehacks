@@ -1,13 +1,14 @@
 // src/App.js
 // 1. Import `CommsProvider` and `ThemeProvider` from the UI kit.
 import { CommsProvider, ThemeProvider } from "@dolbyio/comms-uikit-react";
+import { useEffect, useState } from "react";
+import getApiToken from "./api/getApiToken";
 
 import Landing from "./components/buttons/pages/Landing";
 
 // 2. Define the `CommsProvider` configuration. We need two properties, a `token` and an async function that refreshes it.
-const token =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkb2xieS5pbyIsImlhdCI6MTY3NjgxNTk1OSwic3ViIjoiUVVPRmRWZjJreURFN2d4Si1TSm0xQT09Iiwib2lkIjoiNzU5ZmM0MmYtMTQwMS00NGJlLTg4MjgtYzIyZTYxODI0ZTA3IiwiYmlkIjoiOGEzNjgwZGU4NjM2MjQwNDAxODY1MjMxY2Y1ODYzZTAiLCJhaWQiOiIyZjY3NmJiZi1iYTg5LTQ4Y2MtODEyZS01YjMyOGJhZGI0NGMiLCJhdXRob3JpdGllcyI6WyJST0xFX0NVU1RPTUVSIl0sInRhcmdldCI6InNlc3Npb24iLCJleHAiOjE2NzY4NTkxNTl9.JtXtqbBVQeOjKT0r8WvZXtRUQOaZ1_NLNxl7gWqTvCH6h_CjDhl4Hlo61t3Ju9SU6jwqDwd5gjFGadoLMZFTSg";
-const refreshToken = async () => token;
+// const token =
+const refreshToken = getApiToken;
 
 const theme = {
   // colors: {
@@ -18,11 +19,19 @@ const theme = {
 };
 
 const AppBase = ({ children }) => {
+  const [token, setToken] = useState();
+  useEffect(() => {
+    (async () => {
+      setToken(await getApiToken());
+    })();
+  }, []);
   return (
     <ThemeProvider theme={theme}>
-      <CommsProvider token={token} refreshToken={refreshToken}>
-        {children}
-      </CommsProvider>
+      {token && (
+        <CommsProvider token={token} refreshToken={refreshToken}>
+          {children}
+        </CommsProvider>
+      )}
     </ThemeProvider>
   );
 };
