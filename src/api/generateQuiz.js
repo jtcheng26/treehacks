@@ -1,6 +1,6 @@
 import axios from "axios";
-// export const BASE_URL = "https://treehacks-demo.onrender.com"
-export const BASE_URL = "http://localhost:6969";
+export const BASE_URL = "https://treehacks-demo.onrender.com"
+// export const BASE_URL = "http://localhost:6969";
 
 export default async function generateQuiz(query) {
   const form = new FormData();
