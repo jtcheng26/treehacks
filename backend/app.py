@@ -116,20 +116,20 @@ def get_quiz():
                 response = openai.Completion.create(
                     model = "text-davinci-003",
                     prompt = find_topic(transcript=transcript),
-                    temperature = 1.3,
+                    temperature = 0.6,
                     max_tokens = 200
                 )
                 new_response = openai.Completion.create(
                     model = "text-davinci-003",
                     prompt = info_on_new_topic(topic=response.choices[0].text),
-                    temperature = 1.3,
+                    temperature = 0.6,
                     max_tokens = 200
                 )
                 transcript = new_response.choices[0].text + transcript
             response = openai.Completion.create(
                 model = "text-davinci-003",
-                prompt = generate_quiz_prompt(transcript=transcript),
-                temperature = 1.3,
+                prompt = imagine_prompt(transcript=transcript),
+                temperature = 0.6,
                 max_tokens=200
             )
             # process data
@@ -142,8 +142,7 @@ def get_quiz():
                 "answer": 0
             }
             resList = (response.choices[0].text).split("\n")
-            resList = [res for res in resList if res.strip() != ""]
-            # return resList
+            resList = [res.strip() for res in resList if res.strip() != ""]
             ans = 1
             if resList[1][0].isalpha():
                 for i in range(len(resList[-1]) - 1):
